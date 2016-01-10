@@ -1,0 +1,40 @@
+BPHTB
+1.  Info Objek Pajak Merefer Ke JSON-RPC PBB
+    
+    - Penambahan pada config aplikasi:
+    //JSON RPC
+    define('PBB_USE_RPC',TRUE);
+    define('JSONRPC_URL','localhost:6543/ws/pbb');
+    define('JSONRPC_PORT','80');
+    define('JSONRPC_USER','admin');
+    define('JSONRPC_PASS','$2a$10$E5u2YX14FAwt/.gx3Jk3Gu.xVa.wY6C4/vn56kFvF8KtTpXjxDnb6');
+
+    - Penambahan ws_helper.php (SebService Helper)
+    - Perubahan Script pada Controller Objek Pajak
+     if (PBB_USE_RPC){
+        $result = ws_info_op($nop);
+        if ($result['result']['code']==0){
+          $data_source = $result['result']['params']['data'];
+        };
+    }else{
+        $data_source = $this->bphtb_model->informasi_objek_pajak($nop);
+		}
+    
+2. SSPD Menggunakan JSON-RPC
+   Updated controller sspd.php
+   
+3. Penambahan file ws_helper.php   
+   
+3. Current Bug
+   Saat RPC mengirim data error (tidak ditemukan) masih terdapat tampilan warning di aplikasi BPHTB
+   Masih teratasi dengan mengubah ke production
+   define('MY_ENV', 'production'); //development testing production
+
+
+4. Need testing dan UAT
+   
+Langkah Instalasi
+https://github.com/aagusti/opensipkd-rpc
+Install dan configure opensipkd-rpc di mana dapat mengakses ke data PBB
+Update Aplikasi BPHTB
+2. Saat memilih     
