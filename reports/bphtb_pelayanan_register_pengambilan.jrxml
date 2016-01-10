@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bphtb_register" language="groovy" pageWidth="1008" pageHeight="612" orientation="Landscape" whenNoDataType="AllSectionsNoDetail" columnWidth="915" leftMargin="72" rightMargin="21" topMargin="36" bottomMargin="86" uuid="c4ae4518-f448-47bd-a88b-1ae0de4fe29b">
+	<property name="ireport.zoom" value="1.0000000000000044"/>
+	<property name="ireport.x" value="85"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="kondisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="order" class="java.lang.String">
+		<defaultValueExpression><![CDATA[$F{bphtb_berkas_out_id}]]></defaultValueExpression>
+	</parameter>
+	<parameter name="daerah" class="java.lang.String">
+		<defaultValueExpression><![CDATA["PEMERINTAH KOTA TANGERANG SELATAN"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ibu_kota" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SERPONG"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     row_number() OVER (ORDER BY $P{order})::text as no_urut,
+     lpad(bphtb_sspd."no_sspd"::text,6,'0') AS bphtb_sspd_no_sspd,
+     bphtb_sspd."ppat_id" AS bphtb_sspd_ppat_id,
+     bphtb_ppat."nama" AS bphtb_ppat_nama,
+     bphtb_sspd."kd_propinsi" AS bphtb_sspd_kd_propinsi,
+     bphtb_sspd."kd_dati2" AS bphtb_sspd_kd_dati2,
+     bphtb_sspd."kd_kecamatan" AS bphtb_sspd_kd_kecamatan,
+     bphtb_sspd."kd_kelurahan" AS bphtb_sspd_kd_kelurahan,
+     bphtb_sspd."kd_blok" AS bphtb_sspd_kd_blok,
+     bphtb_sspd."no_urut" AS bphtb_sspd_no_urut,
+     bphtb_sspd."kd_jns_op" AS bphtb_sspd_kd_jns_op,
+     bphtb_sspd."wp_nama" AS bphtb_sspd_wp_nama,
+     bphtb_berkas_out."id" AS bphtb_berkas_out_id,
+     bphtb_berkas_out."tahun" AS bphtb_berkas_out_tahun,
+     bphtb_berkas_out."kode" AS bphtb_berkas_out_kode,
+     lpad(bphtb_berkas_out."no_urut"::text,6,'0') AS bphtb_berkas_out_no_urut,
+     bphtb_berkas_out."sspd_id" AS bphtb_berkas_out_sspd_id,
+     bphtb_berkas_out."tanggal" AS bphtb_berkas_out_tanggal,
+     bphtb_berkas_out."notes" AS bphtb_berkas_out_notes,
+     bphtb_berkas_out."penerima" AS bphtb_berkas_out_penerima,
+     bphtb_berkas_out."create_uid" AS bphtb_berkas_out_create_uid,
+     bphtb_berkas_out."update_uid" AS bphtb_berkas_out_update_uid,
+     bphtb_berkas_out."created" AS bphtb_berkas_out_created,
+     bphtb_berkas_out."updated" AS bphtb_berkas_out_updated
+FROM
+     "public"."bphtb_sspd" bphtb_sspd INNER JOIN "public"."bphtb_ppat" bphtb_ppat ON bphtb_sspd."ppat_id" = bphtb_ppat."id"
+     INNER JOIN "public"."bphtb_berkas_out" bphtb_berkas_out ON bphtb_sspd."id" = bphtb_berkas_out."sspd_id"
+$P!{kondisi}
+$P!{order}]]>
+	</queryString>
+	<field name="no_urut" class="java.lang.String"/>
+	<field name="bphtb_sspd_no_sspd" class="java.lang.String"/>
+	<field name="bphtb_sspd_ppat_id" class="java.lang.Integer"/>
+	<field name="bphtb_ppat_nama" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_propinsi" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_dati2" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_kecamatan" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_kelurahan" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_blok" class="java.lang.String"/>
+	<field name="bphtb_sspd_no_urut" class="java.lang.String"/>
+	<field name="bphtb_sspd_kd_jns_op" class="java.lang.String"/>
+	<field name="bphtb_sspd_wp_nama" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_id" class="java.lang.Long"/>
+	<field name="bphtb_berkas_out_tahun" class="java.lang.Integer"/>
+	<field name="bphtb_berkas_out_kode" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_no_urut" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_sspd_id" class="java.lang.Long"/>
+	<field name="bphtb_berkas_out_tanggal" class="java.sql.Date"/>
+	<field name="bphtb_berkas_out_notes" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_penerima" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_create_uid" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_update_uid" class="java.lang.String"/>
+	<field name="bphtb_berkas_out_created" class="java.sql.Timestamp"/>
+	<field name="bphtb_berkas_out_updated" class="java.sql.Timestamp"/>
+	<pageHeader>
+		<band height="67">
+			<textField isBlankWhenNull="true">
+				<reportElement x="457" y="29" width="442" height="17" uuid="9355efa7-05ba-4c81-a1d8-1436d0260fd7"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_tahun}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="3" width="897" height="26" uuid="ff3f3bfb-57cb-4ecf-adba-42e57f98c26c"/>
+				<textElement textAlignment="Center" verticalAlignment="Bottom">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGISTER PENGAMBILAN BERKAS PELAYANAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="29" width="446" height="17" uuid="a0744288-1b43-4562-8b7e-60ef494bc708"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TAHUN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="6" y="0" width="897" height="29" uuid="83f01e89-5f3b-44db-9f57-f7306916d555"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PEMERINTAH "+$P{daerah}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27">
+			<staticText>
+				<reportElement mode="Transparent" x="7" y="1" width="16" height="26" uuid="7e5784c7-3f32-422e-8988-5a50fe3e2051"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="0" width="73" height="27" uuid="43a35454-3e35-4d76-b31b-c796e90888e4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMOR
+BERKAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="98" y="1" width="90" height="26" uuid="41ce8356-3854-491c-b38e-8cf82c3aff22"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMOR
+SSPD]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="189" y="0" width="103" height="27" uuid="3aba9b5f-a469-42aa-831d-64798037a5ee"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMOR OBJEK PAJAK
+(NOP)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="426" y="1" width="146" height="26" uuid="c60fc4ec-7b44-45c5-bb42-936a36a5fa8e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PPAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="754" y="1" width="149" height="26" uuid="16c37de7-bf1c-4386-9524-a6170a79afd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CATATAN]]></text>
+			</staticText>
+			<line>
+				<reportElement x="23" y="1" width="1" height="26" uuid="05eb279e-6c76-45e2-94ef-634bb8a44a7d"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="97" y="1" width="1" height="26" uuid="91e08e77-d497-40f6-87c5-7266d5d65705"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="188" y="1" width="1" height="26" uuid="89fa32d7-11a8-430a-9f64-7ff6c601f8d4"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="292" y="1" width="1" height="26" uuid="4985ceff-8ecf-4f44-8252-53d723b8a887"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="572" y="1" width="1" height="26" uuid="7e4c9719-c2f1-4557-949c-449a64dc44ea"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="6" y="1" width="1" height="26" uuid="3cc12009-1816-4e05-a573-657dc18fd9d1"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="903" y="1" width="1" height="26" uuid="a4001f13-b897-44e5-9c98-7f5ba2af4284"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="6" y="1" width="898" height="1" uuid="707e5d2d-5180-498d-ad51-7aff8006a5ad"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="6" y="26" width="898" height="1" uuid="3cef331d-0352-43f4-a066-3bf974eed84f"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="425" y="1" width="1" height="26" uuid="4020c042-62fc-48e5-8ea6-8df0af1485a2"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="293" y="1" width="132" height="26" uuid="89565f3b-6371-4350-8d85-9c03eb9a7ac7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[WAJIB PAJAK]]></text>
+			</staticText>
+			<line>
+				<reportElement x="637" y="1" width="1" height="26" uuid="3b924118-68ee-4f1c-9cc8-e58458736190"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="573" y="1" width="64" height="26" uuid="44268b3e-a843-4ac3-9b16-efff2a67564b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TANGGAL]]></text>
+			</staticText>
+			<line>
+				<reportElement x="753" y="1" width="1" height="26" uuid="09cef640-647f-42d8-859c-63d5b9496d1a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="638" y="1" width="115" height="25" uuid="54a1e63c-e79e-48fd-8547-991348e16ab8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PENERIMA]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="13">
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="7" y="0" width="16" height="13" uuid="e7aef47b-8275-45f8-931a-95c4975e9390"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{no_urut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="98" y="0" width="90" height="13" uuid="c84492e8-851b-4044-8f98-36d78fba2ed1"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_tahun} + "." + $F{bphtb_berkas_out_kode} + "." + $F{bphtb_sspd_no_sspd}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="189" y="0" width="103" height="13" uuid="cb8bc6e7-da63-44b1-986d-04c298e441f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_sspd_kd_propinsi} + "." + $F{bphtb_sspd_kd_dati2} + "." + $F{bphtb_sspd_kd_kecamatan} + "." + $F{bphtb_sspd_kd_kelurahan} + "." + $F{bphtb_sspd_kd_blok} + "." + $F{bphtb_sspd_no_urut} + "." + $F{bphtb_sspd_kd_jns_op}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="24" y="0" width="73" height="13" uuid="fed32bf9-efc6-42b3-b172-b9c3d3c901c1"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_tahun} + "." + $F{bphtb_berkas_out_kode} + "." + $F{bphtb_berkas_out_no_urut}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="426" y="0" width="146" height="13" uuid="dc754a09-dd9f-4834-8a59-f70b5cced914"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_ppat_nama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="754" y="0" width="149" height="13" uuid="1c3bf3af-4dc6-4294-bf82-06713871e57c"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_notes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="573" y="0" width="64" height="13" uuid="11c2ae2c-932b-490b-9301-6805d994f217"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_tanggal}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="6" y="0" width="1" height="13" uuid="6e766ff9-02b4-409c-9fac-38c2a8936a63"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="23" y="0" width="1" height="13" uuid="372db982-fb22-49b0-98e8-1e36a170bc48"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="97" y="0" width="1" height="13" uuid="07f5851b-b48f-4314-9640-39e5529e45bf"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="188" y="0" width="1" height="13" uuid="1cee0ab8-ef40-42e0-a713-5217d3398b25"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="292" y="0" width="1" height="13" uuid="561ffba6-8a64-49c4-b928-8230a430afa6"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="572" y="0" width="1" height="13" uuid="668ee8ab-10b9-4997-a263-4e923d2fa17a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="903" y="0" width="1" height="13" uuid="881da7f3-489d-4ad6-9a7e-89443250448b"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="425" y="0" width="1" height="13" uuid="062703f2-25d2-4a75-b5b2-73c0d61c02a9"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement stretchType="RelativeToTallestObject" x="293" y="0" width="132" height="13" uuid="fefde744-7722-4f77-83cb-71ff640caed7"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_sspd_wp_nama}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="637" y="0" width="1" height="13" uuid="108a8148-f506-4846-bd85-5b6567a8f240"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToTallestObject" x="753" y="0" width="1" height="13" uuid="f4fa1252-e07a-44c0-b760-92d0d815ff0a"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+			<textField pattern="dd-MMM-yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="638" y="0" width="115" height="13" uuid="53c11baa-115e-4f32-a6a8-357f9a1ed928"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial" size="7"/>
+					<paragraph leftIndent="2" rightIndent="2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{bphtb_berkas_out_penerima}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="1">
+			<line>
+				<reportElement x="6" y="0" width="898" height="1" uuid="18652f0e-da90-40f9-996b-d27137e0e44f"/>
+				<graphicElement>
+					<pen lineWidth="0.5"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="21">
+			<textField>
+				<reportElement x="880" y="8" width="23" height="13" uuid="778f24ce-fdfb-4cd3-9adc-53e443a254a0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="837" y="8" width="22" height="13" uuid="d04ca3ad-5d53-411c-935d-6d57dd2ade9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="859" y="8" width="21" height="13" uuid="c75f4a0b-4f2e-4e39-9850-1fc726c64688"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Dari]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="754" y="8" width="83" height="13" uuid="274ad95d-0b68-4c11-95ca-6dbd7afa03f3"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Halaman ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>

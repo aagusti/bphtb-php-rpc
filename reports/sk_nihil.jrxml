@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sk_nihil" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="95337e5f-c0a6-4ffb-b608-eb6fca7e6cbb">
+	<property name="ireport.zoom" value="1.2100000000000004"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="658"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="daerah" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Tangerang Selatan"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="kondisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dinas" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select to_char(bphtb_sspd.tgl_transaksi,'DD-MM-YYYY') tgl, get_sspdno(bphtb_sspd.id) sspno, bphtb_sspd.wp_nama, bphtb_sspd.wp_npwp, bphtb_sspd.wp_alamat, bphtb_sspd.wp_kota, bphtb_sspd.wp_kdpos,
+get_nop_sspd(bphtb_sspd.id, true) nop, o.nama jenis_perolehan, bphtb_sspd.op_alamat, bphtb_sspd.op_rt, bphtb_sspd.op_rw,
+kec.nm_kecamatan op_kecamatan, kel.nm_kelurahan op_kelurahan,
+bphtb_sspd.npop, bphtb_sspd.npoptkp
+from bphtb_sspd
+inner join bphtb_perolehan o on o.id=bphtb_sspd.perolehan_id
+inner join ref_kecamatan kec on kec.kd_propinsi=bphtb_sspd.kd_propinsi and kec.kd_dati2=bphtb_sspd.kd_dati2 and kec.kd_kecamatan=bphtb_sspd.kd_kecamatan
+inner join ref_kelurahan kel on kel.kd_propinsi=bphtb_sspd.kd_propinsi and kel.kd_dati2=bphtb_sspd.kd_dati2 and kel.kd_kecamatan=bphtb_sspd.kd_kecamatan and kel.kd_kelurahan=bphtb_sspd.kd_kelurahan
+$P!{kondisi}]]>
+	</queryString>
+	<field name="tgl" class="java.lang.String"/>
+	<field name="sspno" class="java.lang.String"/>
+	<field name="wp_nama" class="java.lang.String"/>
+	<field name="wp_npwp" class="java.lang.String"/>
+	<field name="wp_alamat" class="java.lang.String"/>
+	<field name="wp_kota" class="java.lang.String"/>
+	<field name="wp_kdpos" class="java.lang.String"/>
+	<field name="nop" class="java.lang.String"/>
+	<field name="jenis_perolehan" class="java.lang.String"/>
+	<field name="op_alamat" class="java.lang.String"/>
+	<field name="op_rt" class="java.lang.String"/>
+	<field name="op_rw" class="java.lang.String"/>
+	<field name="op_kecamatan" class="java.lang.String"/>
+	<field name="op_kelurahan" class="java.lang.String"/>
+	<field name="npop" class="java.lang.Long"/>
+	<field name="npoptkp" class="java.lang.Long"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<textField>
+				<reportElement x="30" y="0" width="542" height="54" uuid="180c100f-cf03-4570-a0e5-898243da1c1b"/>
+				<textElement textAlignment="Center" verticalAlignment="Top" markup="none">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PEMERINTAH KOTA "+$P{daerah}.toUpperCase()+"\n"+
+$P{dinas}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="54" width="542" height="30" uuid="a7b2cf17-7577-484f-a7a2-9ff6b7ed583e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Jl. Pemuda No.32 Telp.(0251) 8322871 Fax.(0251) 8337460
+BOGOR 16162]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="84" width="572" height="1" uuid="cdf09486-b303-4b26-bfb6-bfd5687ab86f"/>
+				<graphicElement>
+					<pen lineStyle="Double"/>
+				</graphicElement>
+			</line>
+			<image isUsingCache="false" isLazy="true">
+				<reportElement x="0" y="0" width="71" height="84" uuid="5686f963-2b7d-4f49-999b-7b4995e7af13"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20"/>
+	</pageHeader>
+	<detail>
+		<band height="823" splitType="Stretch">
+			<staticText>
+				<reportElement x="30" y="0" width="542" height="50" uuid="43cc238b-3657-4d77-b5db-b8887a4510ba"/>
+				<textElement textAlignment="Center">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SURAT KETETAPAN PAJAK DAERAH
+BEA PEROLEHAN HAK ATAS TANAH DAN BANGUNAN NIHIL
+(SKPDN)]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="50" width="542" height="20" uuid="06f12fda-f0f2-46f8-b68d-41f5ec9bbe82"/>
+				<textElement textAlignment="Center" markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nomor : 970/............/SKPDN/............"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="70" width="572" height="20" uuid="c4d7e472-4954-4c37-9960-9f5886a0470f"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tanggal Penerbitan : ...................................."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="90" width="542" height="36" uuid="ecb84a26-7f68-42e0-97bf-2fa3b1161dd8"/>
+				<textElement textAlignment="Justified">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Berdasarkan Undang-undang No.28 Tahun 2009 tentang Pajak Daerah dan Retribusi Daerah, telah dilakukan penelitian mengenai pelaksanaan kewajiban Bea Perolehan Hak Atas Tanah dan Bangunan terhadap :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="30" height="216" uuid="08b3300d-89bf-4376-92d7-2bd3cb05bfaa"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[I.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="126" width="100" height="20" uuid="6bd358d3-e63f-486e-9cfc-2c4f8ee28c9c"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Nama]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="186" width="542" height="20" uuid="560c8857-bfd7-472e-9d1e-e86c0d929328"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[atas perolehan hak atas tanah dan bangunannya dengan :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="206" width="270" height="20" uuid="c4c4634e-4115-4e04-9d67-94c71b94ffca"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Akta/Risalah Lelang/Pendaftaran Hak *)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="226" width="100" height="20" uuid="f62c8584-8e15-46cb-a468-0e5cf9533966"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[NOP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="316" width="30" height="240" uuid="726e7bd5-ae7f-434f-9685-673e9825f1d5"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[II.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="316" width="542" height="20" uuid="9f041dbc-2653-4f54-bc8e-0f296a431185"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Dari penelitian tersebut diatas, perhitungan jumlah/seharusnya tidak terutang adalah :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="126" width="120" height="20" uuid="dce6f9b5-3ca7-41e4-aade-87b5bbee2307"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[NPWP  ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="166" width="120" height="20" uuid="f850a52a-8212-4b60-be12-18f2628df973"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kode Pos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="226" width="120" height="20" uuid="f183ea77-8dc6-4752-b4df-8beab80382c3"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Jenis Perolehan Hak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="336" width="24" height="200" uuid="47aa9b91-dd6d-45c6-8ece-3f3a5583afc1"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="54" y="336" width="366" height="200" uuid="c7d88bfe-8e05-41f6-ab51-5df05af4f34e"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Nilai Perolehan Objek Pajak (NPOP)
+Nilai Perolehan Objek Pajak Tidak Kena Pajak (NPOPTKP)
+Nilai Perolehan Objek Pajak Tidak Kena Pajak  (1 -2 )
+Pajak yang Terhutang  : 5 % x angka (3)
+Pengenaan Hak Pengelolaan Hibah Wasiat 25%/50% x (4)
+Pajak yang seharusnya dibayar (4 atau 5)
+Pajak yang telah dibayar
+Diperhitungkan pokok STB
+Jumlah yang dapat diperhitungkan  (7 + 8)
+Jumlah pajak yang lebih bayar/tidak seharusnya terhutang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="336" width="21" height="200" uuid="abb56ea7-9c29-4e8c-bfbd-6278a94f135c"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Rp.
+Rp.
+Rp.
+Rp.
+Rp.
+Rp.
+Rp.
+Rp.
+Rp.
+Rp.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="536" width="542" height="20" uuid="75b5bbb9-3139-43ae-b342-7481a5fe259b"/>
+				<textElement markup="styled">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Dengan Huruf : <i><b>NIHIL</b></i>"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="146" width="100" height="20" uuid="5dbf89d3-057e-4504-8d46-9603c8356eb6"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="166" width="100" height="20" uuid="2b6e4d19-61f4-44e8-933e-fc9362cbf21f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kota ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="246" width="100" height="20" uuid="d2443f39-f63c-4303-8392-6843b97f5046"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="266" width="100" height="20" uuid="42661dd3-4a60-4412-8d58-92b6bbaf2f2c"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Desa/Kel]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="286" width="100" height="20" uuid="0ba2ddc4-7f9d-44e3-b5a5-9e1a06e9b744"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kab/Kotamadya ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="566" width="30" height="39" uuid="645f7ff4-a736-406e-84cc-749ed47d88db"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[III.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="566" width="542" height="39" uuid="46e76700-b2d0-4e2b-b1c8-f525f3256c43"/>
+				<textElement textAlignment="Justified">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Dengan demikian jumlah pajak yang telah dibayar sama besarnya dengan pajak yang terhutang menurut UU No.28 tahun 2009 tentang Pajak Daerah dan Retribusi Daerah]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="246" width="120" height="20" uuid="0c70eed4-2c27-4f6a-bf37-2094620c576d"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[RT/RW]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="266" width="120" height="20" uuid="582a3022-3acf-416c-bd51-4bfd04d044c2"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kecamatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="286" width="120" height="20" uuid="b4c6aacc-54a1-422a-b61e-8f34ed73cc1a"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kode Pos]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="300" y="657" width="272" height="154" uuid="adbfe518-e157-4c84-8f98-bd8caac0bcf8"/>
+				<textElement markup="html">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Bogor,<br>"+
+"Kepala<br><br><br><br><br>"+
+"<b><u>Daud Nedo Darenoh, SE.</u></b><br>"+
+"<font size=2>NIP. 19580222 1982 03 1 008</font>"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="130" y="126" width="10" height="20" uuid="38ed37f4-a6ed-4ef9-8df6-443a44eb9001"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="146" width="10" height="20" uuid="dfb2c737-ddaa-4983-aca5-21322a46fde7"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="166" width="10" height="20" uuid="0f2f479b-11ed-4b87-b78f-7fa3ce4d50d0"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="126" width="10" height="20" uuid="4ee200af-b433-4a46-afca-f08d73d0d26a"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="166" width="10" height="20" uuid="5238216e-6cf0-4491-a8f9-082803ee214f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="266" width="10" height="20" uuid="720ef653-19d6-47ca-958d-6c42275f4965"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="246" width="10" height="20" uuid="632e3846-655b-4976-a45c-5caaee9d72c3"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="226" width="10" height="20" uuid="8e754238-2ea0-4ba9-b666-c3f6bcd87af2"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="266" width="10" height="20" uuid="dc8cd96d-27a6-4cb6-b0a0-68963dda409b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="246" width="10" height="20" uuid="6fd03454-c214-44e4-b9ad-b4b163dafc61"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="226" width="10" height="20" uuid="eea23f09-3da9-43bc-bb17-0c0a9b1d510f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="130" y="286" width="10" height="20" uuid="8149588d-52d5-45d0-8ccd-2915b6e33848"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="286" width="10" height="20" uuid="ab6c3280-c678-4cd7-9606-c1854c892d31"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="140" y="166" width="160" height="20" uuid="044cd837-7896-4d72-a1e2-e618f74736ed"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_kota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="146" width="160" height="20" uuid="bf5f389b-b6f4-47c1-8282-ab10b8ad008c"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_alamat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="126" width="160" height="20" uuid="54fcea37-7672-4f25-bd06-a16a50761bd4"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_nama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="166" width="142" height="20" uuid="f9b8c5f5-3f11-4b27-8201-c5ba8e958493"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_kdpos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="126" width="142" height="20" uuid="c903c2b1-a017-4ddb-93c8-dd6bb95a627e"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_npwp}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="266" width="160" height="20" uuid="3360bdea-f8d8-49f5-b206-fb2b1ce194d1"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_kelurahan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="226" width="160" height="20" uuid="43a350ae-1b38-4d92-9755-eb594ec75d86"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nop}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="246" width="160" height="20" uuid="35977d68-220b-4ee5-a97e-32d3bef89892"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_alamat}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="140" y="286" width="160" height="20" uuid="09a484f2-8fb3-40d7-b4b0-02c04a5bb6e3"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{daerah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="226" width="142" height="20" uuid="6a2cbedf-6191-4db5-b3c3-4a053e18cf86"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{jenis_perolehan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="286" width="142" height="20" uuid="2709208f-7a34-473c-b4cc-a7057c827970"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="246" width="142" height="20" uuid="c78ab740-2ea3-4415-9723-d9b141c0f1fa"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_rt}+"/"+$F{op_rw}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="430" y="266" width="142" height="20" uuid="b3979ce1-de81-47b5-bd93-51b4a19e01f1"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_kecamatan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="336" width="131" height="200" uuid="f571ff50-9c3c-4c6b-96ae-f92ff2008bba"/>
+				<textElement textAlignment="Right" markup="styled">
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2" rightIndent="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new DecimalFormat("#,##0").format($F{npop}).replace(",", "x").replace(".", ",").replace("x", ".")+"\n"+
+new DecimalFormat("#,##0").format($F{npoptkp}).replace(",", "x").replace(".", ",").replace("x", ".")+"\n"+
+"-\n"+
+"-\n"+
+"-\n"+
+"-\n"+
+"-\n"+
+"-\n"+
+"-\n"+
+"<b>NIHIL</b>"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="300" y="206" width="272" height="20" uuid="8ee0a5e2-6115-4f29-a37c-594dc78bec8a"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Nomor : -                          Tanggal : -]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

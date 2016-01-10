@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="pmh_penelitian" language="groovy" pageWidth="612" pageHeight="1008" columnWidth="572" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f02a2231-537d-41ad-80c6-ba79cb94a736">
+	<property name="ireport.zoom" value="1.210000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="671"/>
+	<parameter name="daerah" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Tangerang Selatan"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="terbilang" class="java.lang.String"/>
+	<parameter name="kondisi" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="dinas" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select to_char(bphtb_sspd.tgl_transaksi,'DD-MM-YYYY') tgl, get_sspdno(bphtb_sspd.id) sspno, bphtb_sspd.wp_nama, bphtb_sspd.wp_npwp, bphtb_sspd.wp_alamat, bphtb_sspd.wp_kota, bphtb_sspd.wp_kdpos,
+get_nop_sspd(bphtb_sspd.id, true) nop, o.nama jenis_perolehan, bphtb_sspd.op_alamat, bphtb_sspd.op_rt, bphtb_sspd.op_rw,
+kec.nm_kecamatan op_kecamatan, kel.nm_kelurahan op_kelurahan,
+bphtb_sspd.npop, bphtb_sspd.npoptkp, bphtb_sspd.terhutang, bphtb_sspd.bphtb_sudah_dibayarkan, bphtb_sspd.denda, bphtb_sspd.bphtb_harus_dibayarkan, coalesce(to_char(b.tanggal, 'DD-MM-YYYY'),'-') tglbayar, coalesce(b.transno,'-') transno, coalesce(to_char(bphtb_sspd.tgl_jatuh_tempo, 'DD-MM-YYYY'),'-') tgl_jatuh_tempo
+from bphtb_sspd
+inner join bphtb_perolehan o on o.id=bphtb_sspd.perolehan_id
+inner join ref_kecamatan kec on kec.kd_propinsi=bphtb_sspd.kd_propinsi and kec.kd_dati2=bphtb_sspd.kd_dati2 and kec.kd_kecamatan=bphtb_sspd.kd_kecamatan
+inner join ref_kelurahan kel on kel.kd_propinsi=bphtb_sspd.kd_propinsi and kel.kd_dati2=bphtb_sspd.kd_dati2 and kel.kd_kecamatan=bphtb_sspd.kd_kecamatan and kel.kd_kelurahan=bphtb_sspd.kd_kelurahan
+left join bphtb_bank b on b.sspd_id=bphtb_sspd.id
+$P!{kondisi}]]>
+	</queryString>
+	<field name="tgl" class="java.lang.String"/>
+	<field name="sspno" class="java.lang.String"/>
+	<field name="wp_nama" class="java.lang.String"/>
+	<field name="wp_npwp" class="java.lang.String"/>
+	<field name="wp_alamat" class="java.lang.String"/>
+	<field name="wp_kota" class="java.lang.String"/>
+	<field name="wp_kdpos" class="java.lang.String"/>
+	<field name="nop" class="java.lang.String"/>
+	<field name="jenis_perolehan" class="java.lang.String"/>
+	<field name="op_alamat" class="java.lang.String"/>
+	<field name="op_rt" class="java.lang.String"/>
+	<field name="op_rw" class="java.lang.String"/>
+	<field name="op_kecamatan" class="java.lang.String"/>
+	<field name="op_kelurahan" class="java.lang.String"/>
+	<field name="npop" class="java.lang.Long"/>
+	<field name="npoptkp" class="java.lang.Long"/>
+	<field name="terhutang" class="java.lang.Long"/>
+	<field name="bphtb_sudah_dibayarkan" class="java.lang.Long"/>
+	<field name="denda" class="java.lang.Long"/>
+	<field name="bphtb_harus_dibayarkan" class="java.lang.Long"/>
+	<field name="tglbayar" class="java.lang.String"/>
+	<field name="transno" class="java.lang.String"/>
+	<field name="tgl_jatuh_tempo" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="572" height="24" backcolor="#CCCCCC" uuid="c346e630-85a9-4da7-9555-491dbacb6702"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FORMULIR PERMOHONAN PENELITIAN SSPD BPHTB]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20">
+			<frame>
+				<reportElement x="0" y="0" width="572" height="20" uuid="dfdf440e-cdfd-4b08-b02b-c61e71c5c57a"/>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="900" splitType="Stretch">
+			<frame>
+				<reportElement x="0" y="0" width="572" height="900" uuid="96b19138-1e54-4773-9ea5-a30a933eb524"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="7" y="108" width="557" height="20" uuid="ce649f2f-5e12-4d57-8427-988182e0c395"/>
+				<textElement textAlignment="Justified">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Yang bertanda tangan di bawah ini :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="339" width="557" height="20" uuid="24752621-0a53-4dd7-958c-115c159dbfef"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Dari penelitian tersebut diatas, jumlah yang masih harus dibayar adalah sebagai berikut :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="148" width="113" height="20" uuid="a92747b4-688a-4120-a622-4e30926f9295"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Nomor Telepon / HP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="291" width="113" height="20" uuid="492c0990-d68b-4b08-bca2-8bf6d73a3072"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kecamatan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="251" width="10" height="20" uuid="75797850-ae01-4f93-a8fc-4fbcce6ff64f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="128" width="10" height="20" uuid="1724bb37-8152-4ed7-be2c-36fe8ccd7516"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="231" width="10" height="20" uuid="9e6cee45-a20e-4ac8-bfba-939936aeba1b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="231" width="434" height="20" uuid="eb9239a9-5041-47a3-8864-84375665f193"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nop}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="120" y="291" width="10" height="20" uuid="49019f95-a203-4485-a344-12ea996efbbb"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="128" width="113" height="20" uuid="bc0217ed-42c1-4d4e-89d2-a3352f39b6ac"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Nama Wajib Pajak]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="271" width="434" height="20" uuid="4e023eea-d38e-4a06-b522-b1fd3336a0fe"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_kelurahan}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="120" y="271" width="10" height="20" uuid="a58504bf-e24a-4108-bdf6-9b81fd04b36d"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="311" width="10" height="20" uuid="96b75fd2-077a-4e50-b65d-3512f97c174b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="148" width="10" height="20" uuid="dd420de2-92b3-4cef-b5e6-0a3e076f93ac"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="291" width="434" height="20" uuid="ba6119bd-7f7e-4c7c-811d-9278e6f9f107"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_kecamatan}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="168" width="434" height="20" uuid="5952e3c2-deac-4ded-bab9-8de7bab7593e"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_alamat}+" "+$F{wp_kota}+" "+$F{wp_kdpos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="271" width="113" height="20" uuid="73bf6f82-9682-47a6-98ed-130f4db4dab9"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kelurahan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="231" width="113" height="20" uuid="1fa8f5fe-4197-40d1-aa8f-ea60698e207b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[NOP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="251" width="113" height="20" uuid="ed711929-445c-4418-a2c8-7c9e1227650f"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="311" width="113" height="20" uuid="453bfcff-13e8-4a43-8eaf-bd74e45818bd"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Kota]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="148" width="434" height="20" uuid="8317d2fd-c2fd-4f19-baec-34aece97ce88"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="311" width="434" height="20" uuid="a86fb9c8-c5f8-4ebe-b9e4-4d1744858ad3"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{daerah}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="130" y="128" width="434" height="20" uuid="c8a3c064-3dd4-4414-bd0b-113bea9e3e17"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{wp_nama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="120" y="168" width="10" height="20" uuid="8ec0ed8a-2745-4b79-9324-716e35ced3d3"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="197" width="557" height="34" uuid="7e45edce-af67-4824-8c1b-28985d2b32ff"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Bersama ini menyampaikan SSPD BPHTB untuk diteliti atas perolehan hak atas tanah dan / atau bangunan sebagai berikut :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="168" width="113" height="20" uuid="8e9bb9d5-3311-4fc1-bc0b-93d141150d50"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="251" width="434" height="20" uuid="e1f1dee0-2ca9-4a0b-9726-d3417857da48"/>
+				<textElement markup="none">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{op_alamat}+" "+$F{op_rt}+"/"+$F{op_rw}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="31" y="359" width="533" height="160" uuid="e30a2cb3-255c-46ed-9ae4-5afc65c8398a"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[SSPD BPHTB (tertera tanda tangan petugas Bank dan Nomor Transaksi Penerimaan Daerah (NTPD), kecuali BPHTB Nihil)
+Fotocopy dokumen pendukung atas peralihan hak (sertifikat/akta/harga transaksi lelang/Ket. Lurah (untuk tanah adat/girik/lete c) ... *)
+Bukti Lunas Pembayaran Tunggakan PBB
+Fotocopy Kartu Keluarga/Ket. Hubungan Keluarga/Ket. Ahli Waris/... *) untuk transaksi waris/hibah wasiat/hibah
+Fotocopy Identitas Wajib Pajak berupa KTP/ ... *)
+Fotocopy SPPT PBB Tahun Transaksi Perolehan Hak
+Surat Kuasa Wajib Pajak **) dan fotocopy identitas kuasa
+Dokumen lainnya berupa ............................................................ *]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="359" width="24" height="160" uuid="2410f45c-028a-4dcd-a98c-beb1b3357482"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[(1)
+
+(2)
+
+(3)
+(4)
+
+(5)
+(6)
+(7)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="0" width="557" height="38" uuid="7a038759-dfe1-437a-8351-cb4ab69f7b7c"/>
+				<textElement markup="styled">
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Lampiran : 1 (Satu) set
+Hal : <b>Penyampaian SSPD BPHTB untuk diteliti</b>
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="7" y="38" width="557" height="70" uuid="5885d6c2-91ed-42d1-bda6-4657643606a4"/>
+				<textElement markup="styled">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Kepada Yth.\n"+
+"<b>"+$P{dinas}.toUpperCase()+"\n"+
+$P{daerah}+"</b>"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="625" width="327" height="48" uuid="d2cd17f8-62e9-48ce-843d-a38c56a130a9"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[Keterangan :
+*)      Coret yang tidak perlu
+**)     Dalah hal dikuasakan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="731" width="24" height="60" uuid="ea94b621-6795-4555-9663-504a5d6669af"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[-
+-
+-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="568" width="230" height="105" uuid="cc0df930-840c-4a3b-a645-0940647156b9"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[......................,   ....................................
+Wajib Pajak/Kuasa Wajib Pajak *)
+
+
+
+( ___________________________________ )
+Nama lengkap & Tanda tangan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="519" width="557" height="20" uuid="bd5e8579-8b07-4638-9506-f90dc30694a7"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Demikian disampaikan untuk dapat dilakukan penelitian SSPD BPHTB.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="673" width="572" height="24" backcolor="#CCCCCC" uuid="c81d4177-3223-463a-b662-bdbfada9b391"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PENELITIAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="697" width="557" height="34" uuid="819fff02-3e0e-4828-b541-feb4b14dfeef"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[Setelah melakukan pemeriksaan dan penelaahan SSPD BPHTB dan dokumen pendukung dari Wajib Pajak, dengan ini kami sampaikan bahwa :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="31" y="731" width="410" height="60" uuid="a25ec25e-a7d4-400a-b43d-1f5654fa7e52"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[Data Objek Pajak yang tercantum dalam SSPD BPHTB telah sesuai
+Nilai BPHTB terutang yang tercantum dalam SSPD BPHTB telah sesuai
+Dokumen pendukung perolehan hak atas tanah/dan bangunan telah lengkap]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="334" y="795" width="230" height="105" uuid="e8fc327e-24da-4e58-ae4a-3f0b6d72107b"/>
+				<textElement>
+					<font size="11"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<text><![CDATA[......................,   ....................................
+Petugas Peneliti
+
+
+
+( ___________________________________ )
+Nama lengkap & Tanda tangan]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="441" y="731" width="123" height="17" uuid="6f035b69-25a9-41c4-9360-b18e4d4d16ed"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="748" width="123" height="17" uuid="ef46bc5f-471d-4ef1-9326-1ee306f072ae"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="441" y="765" width="123" height="17" uuid="03555af1-bd52-411e-8f33-0b4471299a7a"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="11"/>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA[""]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

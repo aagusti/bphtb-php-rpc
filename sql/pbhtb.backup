@@ -1,0 +1,3450 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: bphtb; Type: SCHEMA; Schema: -; Owner: bphtb
+--
+
+CREATE SCHEMA bphtb;
+
+
+ALTER SCHEMA bphtb OWNER TO bphtb;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = bphtb, pg_catalog;
+
+--
+-- Name: get_approvalno(bigint); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_approvalno(id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare no_out character varying;
+begin
+
+ --irul
+
+select tahun||'.'||lpad(kode,2,'0')||'.'||lpad(no_urut::text,6,'0') into no_out
+from bphtb_approval_final
+where bphtb_approval_final.approval_id=$1;
+
+return no_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_approvalno(id bigint) OWNER TO postgres;
+
+--
+-- Name: get_berkaskeluarno(bigint); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_berkaskeluarno(id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare no_out character varying;
+begin
+
+ --irul
+
+select tahun||'.'||lpad(kode,2,'0')||'.'||lpad(no_urut::text,6,'0') into no_out
+from bphtb_berkas_out
+where bphtb_berkas_out.id=$1;
+
+return no_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_berkaskeluarno(id bigint) OWNER TO postgres;
+
+--
+-- Name: get_berkasmasukno(bigint); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_berkasmasukno(id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare no_out character varying;
+begin
+
+ --irul
+
+select tahun||'.'||lpad(kode,2,'0')||'.'||lpad(no_urut::text,6,'0') into no_out
+from bphtb_berkas_in
+where bphtb_berkas_in.id=$1;
+
+return no_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_berkasmasukno(id bigint) OWNER TO postgres;
+
+--
+-- Name: get_nop_bank(bigint, boolean); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_nop_bank(id bigint, formatted boolean) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare nop_out character varying;
+begin
+
+ --irul
+ --NOP: 32.79.010.004.007-0061.0
+ --source: bphtb_bank, bphtb_sspd
+
+if $2 then
+
+select kd_propinsi||'.'||kd_dati2||'.'||kd_kecamatan||'.'||kd_kelurahan||'.'||kd_blok||'-'||no_urut||'.'||kd_jns_op into nop_out
+from bphtb_bank
+where bphtb_bank.id=$1;
+
+else
+
+select kd_propinsi||kd_dati2||kd_kecamatan||kd_kelurahan||kd_blok||no_urut||kd_jns_op into nop_out
+from bphtb_bank
+where bphtb_bank.id=$1;
+
+end if;
+
+return nop_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_nop_bank(id bigint, formatted boolean) OWNER TO postgres;
+
+--
+-- Name: get_nop_sspd(bigint, boolean); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_nop_sspd(id bigint, formatted boolean) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare nop_out character varying;
+begin
+
+ --irul
+ --NOP: 32.79.010.004.007-0061.0
+ --source: bphtb_bank, bphtb_sspd
+
+if $2 then
+
+select kd_propinsi||'.'||kd_dati2||'.'||kd_kecamatan||'.'||kd_kelurahan||'.'||kd_blok||'-'||no_urut||'.'||kd_jns_op into nop_out
+from bphtb_sspd
+where bphtb_sspd.id=$1;
+
+else
+
+select kd_propinsi||kd_dati2||kd_kecamatan||kd_kelurahan||kd_blok||no_urut||kd_jns_op into nop_out
+from bphtb_sspd
+where bphtb_sspd.id=$1;
+
+end if;
+
+return nop_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_nop_sspd(id bigint, formatted boolean) OWNER TO postgres;
+
+--
+-- Name: get_nop_thn_bank(bigint, boolean); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_nop_thn_bank(id bigint, formatted boolean) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare nop_out character varying;
+begin
+
+ --irul
+ --NOP: 32.79.010.004.007-0061.0:2014
+ --source: bphtb_bank, bphtb_sspd
+
+if $2 then
+
+select kd_propinsi||'.'||kd_dati2||'.'||kd_kecamatan||'.'||kd_kelurahan||'.'||kd_blok||'-'||no_urut||'.'||kd_jns_op||'.'||thn_pajak_sppt into nop_out
+from bphtb_bank
+where bphtb_bank.id=$1;
+
+else
+
+select kd_propinsi||kd_dati2||kd_kecamatan||kd_kelurahan||kd_blok||no_urut||kd_jns_op||thn_pajak_sppt into nop_out
+from bphtb_bank
+where bphtb_bank.id=$1;
+
+end if;
+
+return nop_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_nop_thn_bank(id bigint, formatted boolean) OWNER TO postgres;
+
+--
+-- Name: get_nop_thn_sspd(bigint, boolean); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_nop_thn_sspd(id bigint, formatted boolean) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare nop_out character varying;
+begin
+
+ --irul
+ --NOP: 32.79.010.004.007-0061.0:2014
+ --source: bphtb_bank, bphtb_sspd
+
+if $2 then
+
+select kd_propinsi||'.'||kd_dati2||'.'||kd_kecamatan||'.'||kd_kelurahan||'.'||kd_blok||'-'||no_urut||'.'||kd_jns_op||'.'||thn_pajak_sppt into nop_out
+from bphtb_sspd
+where bphtb_sspd.id=$1;
+
+else
+
+select kd_propinsi||kd_dati2||kd_kecamatan||kd_kelurahan||kd_blok||no_urut||kd_jns_op||thn_pajak_sppt into nop_out
+from bphtb_sspd
+where bphtb_sspd.id=$1;
+
+end if;
+
+return nop_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_nop_thn_sspd(id bigint, formatted boolean) OWNER TO postgres;
+
+--
+-- Name: get_sspd_approvalno(bigint); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_sspd_approvalno(id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare no_out character varying;
+begin
+
+ --irul
+
+select tahun||'.'||lpad(kode,2,'0')||'.'||lpad(no_urut::text,6,'0') into no_out
+from bphtb_sspd_approval 
+where bphtb_sspd_approval.id=$1;
+
+return no_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_sspd_approvalno(id bigint) OWNER TO postgres;
+
+--
+-- Name: get_sspdno(bigint); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION get_sspdno(id bigint) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $_$
+declare sspd_out character varying;
+begin
+
+--irul
+/*
+bphtb bogor
+1. no sspd = tahun(4)+nourut_tetap(6)+kode_dok
+   kode dok:
+   01 - sspd
+   02 - kb
+   03 - kbt
+   ..
+   ..
+   97 - stpd
+   98 - nihil
+   99 - lb
+*/
+
+select tahun||'.'||lpad(no_sspd::text,6,'0')||'.'||lpad(kode,2,'0') into sspd_out
+from bphtb_sspd 
+where bphtb_sspd.id=$1;
+
+return sspd_out;
+   
+end
+$_$;
+
+
+ALTER FUNCTION bphtb.get_sspdno(id bigint) OWNER TO postgres;
+
+--
+-- Name: str_status(integer); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION str_status(num integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare status_out character varying;
+begin
+
+ --irul
+ --status: sudah/belum
+
+select case when num=0 then 'BELUM' when num=1 then 'SUDAH' else 'Unknown' end into status_out;
+return status_out;
+   
+end
+$$;
+
+
+ALTER FUNCTION bphtb.str_status(num integer) OWNER TO postgres;
+
+--
+-- Name: str_status_daftar(integer); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION str_status_daftar(num integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare status_out character varying;
+begin
+
+-- irul
+/*
+STATUS DAFTAR:
+0 = 'Draft';
+1 = 'Bayar';
+2 = 'Approval';
+3 = 'Penelitian';
+4 = 'SKPD-KB';
+5 = 'SKPD-LB';
+6 = 'BPN';
+7 = 'Selesai';    
+*/
+
+select case 
+  when num=0 then 'Draft' 
+  when num=2 then 'Bayar' 
+  when num=3 then 'Approval' 
+  when num=4 then 'Penelitian' 
+  when num=5 then 'SKPD-KB' 
+  when num=6 then 'SKPD-LB' 
+  when num=7 then 'Selesai' 
+  else 'Unknown' end 
+into status_out;
+
+return status_out;
+   
+end
+$$;
+
+
+ALTER FUNCTION bphtb.str_status_daftar(num integer) OWNER TO postgres;
+
+--
+-- Name: str_status_validasi(integer); Type: FUNCTION; Schema: bphtb; Owner: postgres
+--
+
+CREATE FUNCTION str_status_validasi(num integer) RETURNS character varying
+    LANGUAGE plpgsql
+    AS $$
+declare status_out character varying;
+begin
+
+-- aagusti
+/*
+STATUS VALIDASI:
+0 = 'Draft';
+1 = 'Validated';
+2 = 'Approved';   
+*/
+
+select case 
+  when num=0 then 'Draft' 
+  when num=1 then 'On Validated' 
+  when num=2 then 'Approved'
+  else 'Unknown' end 
+into status_out;
+
+return status_out;
+   
+end
+$$;
+
+
+ALTER FUNCTION bphtb.str_status_validasi(num integer) OWNER TO postgres;
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: f_bphtb_bank_bi(); Type: FUNCTION; Schema: public; Owner: bphtb
+--
+
+CREATE FUNCTION f_bphtb_bank_bi() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$begin
+  new.kd_propinsi =substring(new.nop,1,2);
+  new.kd_dati2    =substring(new.nop,3,2);
+  new.kd_kecamatan=substring(new.nop,5,3);
+  new.kd_kelurahan=substring(new.nop,8,3);
+  new.kd_blok     =substring(new.nop,11,3);
+  new.no_urut     =substring(new.nop,14,4);
+  new.kd_jns_op   =substring(new.nop,18,1);
+  new.thn_pajak_sppt =cast(new.tahun as varchar);
+  
+  return new;
+end;$$;
+
+
+ALTER FUNCTION public.f_bphtb_bank_bi() OWNER TO bphtb;
+
+--
+-- Name: f_bphtb_bank_bu(); Type: FUNCTION; Schema: public; Owner: bphtb
+--
+
+CREATE FUNCTION f_bphtb_bank_bu() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$begin
+  if new.nop<>old.nop and (old.kd_propinsi is null or old.kd_propinsi='' or
+     old.nop=old.kd_propinsi||old.kd_dati2||old.kd_kecamatan||old.kd_kelurahan||old.kd_blok||old.no_urut||old.kd_jns_op) then
+  
+    new.kd_propinsi =substring(new.nop,1,2);
+    new.kd_dati2    =substring(new.nop,3,2);
+    new.kd_kecamatan=substring(new.nop,5,3);
+    new.kd_kelurahan=substring(new.nop,8,3);
+    new.kd_blok     =substring(new.nop,11,3);
+    new.no_urut     =substring(new.nop,14,4);
+    new.kd_jns_op   =substring(new.nop,18,1);
+    --new.thn_pajak_sppt =cast(new.tahun as varchar);
+  end if; 
+  return new;
+end;$$;
+
+
+ALTER FUNCTION public.f_bphtb_bank_bu() OWNER TO bphtb;
+
+--
+-- Name: footgun(text, text); Type: FUNCTION; Schema: public; Owner: bphtb
+--
+
+CREATE FUNCTION footgun(_schema text, _parttionbase text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+    row     record;
+BEGIN
+    FOR row IN 
+        SELECT
+            table_schema,
+            table_name
+        FROM
+            information_schema.tables
+        WHERE
+            table_type = 'BASE TABLE'
+        AND
+            table_schema = _schema
+        AND
+            table_name ILIKE (_parttionbase || '%')
+    LOOP
+       BEGIN
+        EXECUTE 'DROP TABLE ' || quote_ident(row.table_schema) || '.' || quote_ident(row.table_name);
+        RAISE INFO 'Dropped table: %', quote_ident(row.table_schema) || '.' || quote_ident(row.table_name);
+       EXCEPTION when division_by_zero  then
+        --RAISE INFO 'Cannot Dropped table: %', quote_ident(row.table_schema) || '.' || quote_ident(row.table_name);
+       
+       END;
+    END LOOP;
+END;
+$$;
+
+
+ALTER FUNCTION public.footgun(_schema text, _parttionbase text) OWNER TO bphtb;
+
+SET search_path = bphtb, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: app_status; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE app_status (
+    id integer NOT NULL,
+    tahun integer,
+    app_id smallint,
+    step character varying(25),
+    operator smallint DEFAULT 0 NOT NULL,
+    review smallint DEFAULT 0 NOT NULL,
+    manager smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE bphtb.app_status OWNER TO bphtb;
+
+--
+-- Name: app_status_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE app_status_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.app_status_id_seq OWNER TO bphtb;
+
+--
+-- Name: app_status_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE app_status_id_seq OWNED BY app_status.id;
+
+
+--
+-- Name: bphtb_alasan_pengurang; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_alasan_pengurang (
+    id smallint NOT NULL,
+    nama character varying(50) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_alasan_pengurang OWNER TO bphtb;
+
+--
+-- Name: bphtb_approval; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_approval (
+    id bigint NOT NULL,
+    validasi_id bigint NOT NULL,
+    tgl_approval timestamp without time zone DEFAULT now() NOT NULL,
+    user_id integer,
+    level_id integer DEFAULT 1,
+    level integer DEFAULT 1,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone
+);
+
+
+ALTER TABLE bphtb.bphtb_approval OWNER TO bphtb;
+
+--
+-- Name: bphtb_approval_final; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_approval_final (
+    id bigint NOT NULL,
+    approval_id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(2),
+    no_urut bigint NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone
+);
+
+
+ALTER TABLE bphtb.bphtb_approval_final OWNER TO bphtb;
+
+--
+-- Name: bphtb_approval_final_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_approval_final_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_approval_final_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_approval_final_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_approval_final_id_seq OWNED BY bphtb_approval_final.id;
+
+
+--
+-- Name: bphtb_approval_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_approval_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_approval_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_approval_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_approval_id_seq OWNED BY bphtb_approval.id;
+
+
+--
+-- Name: bphtb_bank; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_bank (
+    id integer NOT NULL,
+    tanggal date NOT NULL,
+    jam time without time zone NOT NULL,
+    seq bigint NOT NULL,
+    transno character varying(20) NOT NULL,
+    cabang character varying(5),
+    users character varying(5),
+    bankid integer NOT NULL,
+    txs character varying(5) NOT NULL,
+    sspd_id bigint,
+    nop character varying(50) NOT NULL,
+    tahun integer,
+    kd_propinsi character varying(2),
+    kd_dati2 character varying(2),
+    kd_kecamatan character varying(3),
+    kd_kelurahan character varying(3),
+    kd_blok character varying(3),
+    no_urut character varying(4),
+    kd_jns_op character varying(1),
+    thn_pajak_sppt character varying(4),
+    wp_nama character varying(50) NOT NULL,
+    wp_alamat character varying(100),
+    wp_blok_kav character varying(100),
+    wp_rt character varying(3),
+    wp_rw character varying(3),
+    wp_kelurahan character varying(30),
+    wp_kecamatan character varying(30),
+    wp_kota character varying(30),
+    wp_provinsi character varying(50),
+    wp_kdpos character varying(5),
+    wp_identitas character varying(50),
+    wp_identitaskd character varying(50),
+    wp_npwp character varying(50),
+    notaris character varying(50),
+    bumi_luas integer,
+    bumi_njop bigint,
+    bng_luas integer,
+    bng_njop bigint,
+    npop bigint,
+    bayar bigint,
+    denda integer,
+    bphtbjeniskd integer,
+    is_validated smallint DEFAULT 0,
+    no_tagihan character varying(50),
+    catatan character varying(255),
+    kd_kanwil character varying(2),
+    kd_kantor character varying(2),
+    kd_bank_tunggal character varying(2),
+    kd_bank_persepsi character varying(2),
+    wp_propinsi character varying(100),
+    pembayaran_ke smallint DEFAULT 1 NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_bank OWNER TO bphtb;
+
+--
+-- Name: bphtb_bank_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_bank_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_bank_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_bank_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_bank_id_seq OWNED BY bphtb_bank.id;
+
+
+--
+-- Name: bphtb_berkas_in; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_berkas_in (
+    id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(1) DEFAULT 'A'::bpchar NOT NULL,
+    no_urut bigint NOT NULL,
+    tgl_terima date,
+    tgl_selesai date,
+    notes character varying(100),
+    pengirim character varying(50),
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now(),
+    updated timestamp without time zone DEFAULT now(),
+    ppat_id integer
+);
+
+
+ALTER TABLE bphtb.bphtb_berkas_in OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_in_det; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_berkas_in_det (
+    id bigint NOT NULL,
+    berkas_in_id bigint,
+    sspd_id bigint,
+    sspd_no bigint,
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut character(4) NOT NULL,
+    kd_jns_op character(1) NOT NULL,
+    thn_pajak_sppt character(4) NOT NULL,
+    nominal bigint DEFAULT 0
+);
+
+
+ALTER TABLE bphtb.bphtb_berkas_in_det OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_in_det_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_berkas_in_det_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_berkas_in_det_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_in_det_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_berkas_in_det_id_seq OWNED BY bphtb_berkas_in_det.id;
+
+
+--
+-- Name: bphtb_berkas_in_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_berkas_in_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_berkas_in_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_in_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_berkas_in_id_seq OWNED BY bphtb_berkas_in.id;
+
+
+--
+-- Name: bphtb_berkas_out; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_berkas_out (
+    id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(1) DEFAULT 'A'::bpchar NOT NULL,
+    no_urut bigint NOT NULL,
+    tgl_keluar date,
+    notes character varying(100),
+    penerima character varying(50),
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now(),
+    updated timestamp without time zone DEFAULT now(),
+    ppat_id integer
+);
+
+
+ALTER TABLE bphtb.bphtb_berkas_out OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_out_det; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_berkas_out_det (
+    id bigint NOT NULL,
+    berkas_out_id bigint,
+    berkas_in_det_id bigint
+);
+
+
+ALTER TABLE bphtb.bphtb_berkas_out_det OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_out_det_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_berkas_out_det_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_berkas_out_det_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_out_det_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_berkas_out_det_id_seq OWNED BY bphtb_berkas_out_det.id;
+
+
+--
+-- Name: bphtb_berkas_out_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_berkas_out_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_berkas_out_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_berkas_out_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_berkas_out_id_seq OWNED BY bphtb_berkas_out.id;
+
+
+--
+-- Name: bphtb_bpn; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_bpn (
+    id bigint NOT NULL,
+    bank_id bigint,
+    sspd_id bigint,
+    validasi_id bigint,
+    tgl_proses date,
+    tgl_selesai date,
+    status smallint
+);
+
+
+ALTER TABLE bphtb.bphtb_bpn OWNER TO bphtb;
+
+--
+-- Name: bphtb_bpn_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_bpn_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_bpn_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_bpn_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_bpn_id_seq OWNED BY bphtb_bpn.id;
+
+
+--
+-- Name: bphtb_channel; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_channel (
+    id integer NOT NULL,
+    nama character varying(20) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_channel OWNER TO bphtb;
+
+--
+-- Name: bphtb_channel_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_channel_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_channel_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_channel_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_channel_id_seq OWNED BY bphtb_channel.id;
+
+
+--
+-- Name: bphtb_dasar; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_dasar (
+    id smallint NOT NULL,
+    nama character varying(50) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_dasar OWNER TO bphtb;
+
+--
+-- Name: bphtb_hukum; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_hukum (
+    id smallint NOT NULL,
+    nama character varying(50) NOT NULL,
+    uraian character varying(50) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_hukum OWNER TO bphtb;
+
+--
+-- Name: bphtb_inquiry; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_inquiry (
+    id integer NOT NULL,
+    tgl timestamp without time zone NOT NULL,
+    invoice_id bigint NOT NULL,
+    transmission timestamp without time zone NOT NULL,
+    stan integer NOT NULL,
+    settlement date NOT NULL,
+    bank_id integer NOT NULL,
+    channel_id integer NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_inquiry OWNER TO bphtb;
+
+--
+-- Name: bphtb_inquiry_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_inquiry_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_inquiry_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_inquiry_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_inquiry_id_seq OWNED BY bphtb_inquiry.id;
+
+
+--
+-- Name: bphtb_pasar; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_pasar (
+    id bigint NOT NULL,
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut smallint NOT NULL,
+    uraian character varying(100),
+    harga bigint
+);
+
+
+ALTER TABLE bphtb.bphtb_pasar OWNER TO bphtb;
+
+--
+-- Name: bphtb_pasar_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_pasar_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_pasar_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_pasar_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_pasar_id_seq OWNED BY bphtb_pasar.id;
+
+
+--
+-- Name: bphtb_payment; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_payment (
+    id integer NOT NULL,
+    tgl timestamp with time zone NOT NULL,
+    iso_request character varying(1024) NOT NULL,
+    transmission timestamp with time zone NOT NULL,
+    settlement date NOT NULL,
+    stan integer NOT NULL,
+    invoice_id integer NOT NULL,
+    invoice_no character varying(32) NOT NULL,
+    ntb character varying(32) NOT NULL,
+    ntp character varying(32) NOT NULL,
+    bank_id integer,
+    channel_id integer,
+    bank_ip character varying(15) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_payment OWNER TO bphtb;
+
+--
+-- Name: bphtb_pejabat; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_pejabat (
+    id integer NOT NULL,
+    nip character varying(18) NOT NULL,
+    kd_jabatan character(2) NOT NULL,
+    nama character varying(50) NOT NULL,
+    enabled smallint DEFAULT 0 NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_pejabat OWNER TO bphtb;
+
+--
+-- Name: bphtb_pejabat_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_pejabat_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_pejabat_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_pejabat_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_pejabat_id_seq OWNED BY bphtb_pejabat.id;
+
+
+--
+-- Name: bphtb_perolehan; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_perolehan (
+    id integer NOT NULL,
+    nama character varying(100) NOT NULL,
+    npoptkp bigint DEFAULT 60000000 NOT NULL,
+    pengurang smallint DEFAULT 0,
+    singkatan character varying(20)
+);
+
+
+ALTER TABLE bphtb.bphtb_perolehan OWNER TO bphtb;
+
+--
+-- Name: bphtb_ppat; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_ppat (
+    id integer NOT NULL,
+    kode character varying(6),
+    nama character varying(50),
+    alamat character varying(255),
+    kelurahan character varying(50),
+    kecamatan character varying(50),
+    kota character varying(50),
+    wilayah_kerja character varying(50),
+    kd_wilayah character varying(4),
+    no_telp character varying(20),
+    no_fax character varying(20),
+    no_sk character varying(30),
+    tgl_sk date,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now(),
+    updated timestamp without time zone DEFAULT now(),
+    npwp character varying(20),
+    pejabat_id integer
+);
+
+
+ALTER TABLE bphtb.bphtb_ppat OWNER TO bphtb;
+
+--
+-- Name: bphtb_ppat_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_ppat_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_ppat_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_ppat_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_ppat_id_seq OWNED BY bphtb_ppat.id;
+
+
+--
+-- Name: bphtb_reversal; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_reversal (
+    id integer NOT NULL,
+    tgl timestamp with time zone NOT NULL,
+    iso_request character varying(1024) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_reversal OWNER TO bphtb;
+
+--
+-- Name: bphtb_sk; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_sk (
+    id bigint NOT NULL,
+    validasi_id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(2) NOT NULL,
+    no_urut bigint NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_sk OWNER TO bphtb;
+
+--
+-- Name: bphtb_sk_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_sk_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_sk_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_sk_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_sk_id_seq OWNED BY bphtb_sk.id;
+
+
+--
+-- Name: bphtb_sspd; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_sspd (
+    id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(2) NOT NULL,
+    no_sspd bigint NOT NULL,
+    ppat_id integer,
+    wp_nama character varying(50) NOT NULL,
+    wp_npwp character varying(50) NOT NULL,
+    wp_alamat character varying(100) NOT NULL,
+    wp_blok_kav character varying(100) NOT NULL,
+    wp_kelurahan character varying(30) NOT NULL,
+    wp_rt character varying(3) NOT NULL,
+    wp_rw character varying(3) NOT NULL,
+    wp_kecamatan character varying(30) NOT NULL,
+    wp_kota character varying(30) NOT NULL,
+    wp_provinsi character varying(30) NOT NULL,
+    wp_identitas character varying(50) NOT NULL,
+    wp_identitaskd character varying(50),
+    tgl_transaksi date NOT NULL,
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut character(4) NOT NULL,
+    kd_jns_op character(1) NOT NULL,
+    thn_pajak_sppt character(4) NOT NULL,
+    op_alamat character varying(100) NOT NULL,
+    op_blok_kav character varying(100) NOT NULL,
+    op_rt character varying(3) NOT NULL,
+    op_rw character varying(3) NOT NULL,
+    bumi_luas bigint NOT NULL,
+    bumi_njop bigint NOT NULL,
+    bng_luas bigint NOT NULL,
+    bng_njop bigint NOT NULL,
+    no_sertifikat character varying(30),
+    njop bigint NOT NULL,
+    perolehan_id integer NOT NULL,
+    npop bigint NOT NULL,
+    npoptkp bigint NOT NULL,
+    tarif double precision NOT NULL,
+    terhutang bigint NOT NULL,
+    bagian smallint DEFAULT 1 NOT NULL,
+    pembagi smallint DEFAULT 1 NOT NULL,
+    tarif_pengurang smallint DEFAULT 0 NOT NULL,
+    pengurang bigint NOT NULL,
+    bphtb_sudah_dibayarkan bigint DEFAULT 0 NOT NULL,
+    denda bigint DEFAULT 0 NOT NULL,
+    restitusi bigint DEFAULT 0 NOT NULL,
+    bphtb_harus_dibayarkan bigint DEFAULT 0 NOT NULL,
+    status_pembayaran smallint DEFAULT 0 NOT NULL,
+    dasar_id smallint DEFAULT 0 NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    header_id bigint DEFAULT 0 NOT NULL,
+    tgl_print timestamp without time zone,
+    tgl_approval timestamp without time zone,
+    file1 character varying(150),
+    file2 character varying(150),
+    file3 character varying(150),
+    file4 character varying(150),
+    file5 character varying(150),
+    wp_kdpos character(5) DEFAULT ''::bpchar,
+    file6 character varying(150),
+    file7 character varying(150),
+    file8 character varying(150),
+    file9 character varying(150),
+    file10 character varying(150),
+    keterangan character varying(100),
+    status_daftar smallint DEFAULT 0,
+    persen_pengurang_sendiri integer DEFAULT 0,
+    pp_nomor_pengurang_sendiri character(50),
+    no_ajb character varying(50),
+    tgl_ajb timestamp without time zone,
+    wp_nama_asal character varying(50),
+    jml_pph numeric,
+    tgl_pph timestamp without time zone,
+    posted smallint DEFAULT 0,
+    pos_tp_id integer,
+    status_validasi integer DEFAULT 0,
+    status_bpn integer DEFAULT 0,
+    tgl_jatuh_tempo timestamp without time zone,
+    verifikasi_uid character varying(20),
+    verifikasi_date timestamp without time zone,
+    pbb_nop character varying(24),
+    verifikasi_bphtb_uid character varying(20),
+    verifikasi_bphtb_date timestamp without time zone,
+    hasil_penelitian character varying(20) DEFAULT 'Draft'::character varying,
+    no_sk character varying(20),
+    pengurangan_sk character varying(20),
+    pengurangan_jatuh_tempo_tgl timestamp without time zone,
+    pengurangan_sk_tgl timestamp without time zone,
+    ketetapan_no character varying(20),
+    ketetapan_tgl timestamp without time zone,
+    ketetapan_atas_sspd_no character varying(20),
+    ketetapan_jatuh_tempo_tgl timestamp without time zone,
+    pembayaran_ke smallint DEFAULT 1 NOT NULL,
+    mutasi_penuh integer DEFAULT 1,
+    harga_transaksi bigint DEFAULT 0,
+    npopkp bigint
+);
+
+
+ALTER TABLE bphtb.bphtb_sspd OWNER TO bphtb;
+
+--
+-- Name: COLUMN bphtb_sspd.no_ajb; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.no_ajb IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.tgl_ajb; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.tgl_ajb IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.jml_pph; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.jml_pph IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.tgl_pph; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.tgl_pph IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.posted; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.posted IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.verifikasi_uid; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.verifikasi_uid IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.verifikasi_date; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.verifikasi_date IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.pbb_nop; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.pbb_nop IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.verifikasi_bphtb_uid; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.verifikasi_bphtb_uid IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.verifikasi_bphtb_date; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.verifikasi_bphtb_date IS 'dipake di pbb_bphtb aa';
+
+
+--
+-- Name: COLUMN bphtb_sspd.hasil_penelitian; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.hasil_penelitian IS 'Draft/Sesuai/Kurang Bayar/Lebih Bayar';
+
+
+--
+-- Name: COLUMN bphtb_sspd.mutasi_penuh; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_sspd.mutasi_penuh IS 'mutasi penuh=1 (atau sebagian=0)';
+
+
+--
+-- Name: bphtb_sspd_approval; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_sspd_approval (
+    id bigint NOT NULL,
+    sspd_id bigint NOT NULL,
+    tahun integer NOT NULL,
+    kode character(1) NOT NULL,
+    no_urut bigint NOT NULL,
+    tgl_approval timestamp without time zone DEFAULT now() NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_sspd_approval OWNER TO bphtb;
+
+--
+-- Name: bphtb_sspd_approval_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_sspd_approval_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_sspd_approval_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_sspd_approval_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_sspd_approval_id_seq OWNED BY bphtb_sspd_approval.id;
+
+
+--
+-- Name: bphtb_sspd_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_sspd_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_sspd_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_sspd_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_sspd_id_seq OWNED BY bphtb_sspd.id;
+
+
+--
+-- Name: bphtb_status_hak; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_status_hak (
+    id smallint NOT NULL,
+    nama character varying(50) NOT NULL,
+    uraian character varying(50) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_status_hak OWNER TO bphtb;
+
+--
+-- Name: bphtb_tp; Type: TABLE; Schema: bphtb; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE bphtb_tp (
+    id integer NOT NULL,
+    singkatan character varying(16) NOT NULL,
+    nama character varying(30) NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_tp OWNER TO postgres;
+
+--
+-- Name: bphtb_tp_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: postgres
+--
+
+CREATE SEQUENCE bphtb_tp_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_tp_id_seq OWNER TO postgres;
+
+--
+-- Name: bphtb_tp_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: postgres
+--
+
+ALTER SEQUENCE bphtb_tp_id_seq OWNED BY bphtb_tp.id;
+
+
+--
+-- Name: bphtb_user; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_user (
+    userid character varying(25),
+    ppat_id integer,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE bphtb.bphtb_user OWNER TO bphtb;
+
+--
+-- Name: bphtb_user_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_user_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_user_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_user_id_seq OWNED BY bphtb_user.id;
+
+
+--
+-- Name: bphtb_validasi; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_validasi (
+    id bigint NOT NULL,
+    berkas_in_id bigint,
+    sspd_id bigint,
+    ppat_id integer,
+    wp_nama character varying(50) NOT NULL,
+    wp_npwp character varying(50) NOT NULL,
+    wp_alamat character varying(100) NOT NULL,
+    wp_blok_kav character varying(100) NOT NULL,
+    wp_kelurahan character varying(30) NOT NULL,
+    wp_rt character varying(3) NOT NULL,
+    wp_rw character varying(3) NOT NULL,
+    wp_kecamatan character varying(30) NOT NULL,
+    wp_kota character varying(30) NOT NULL,
+    wp_provinsi character varying(30) NOT NULL,
+    wp_identitas character varying(50) NOT NULL,
+    wp_identitaskd character varying(50) NOT NULL,
+    tgl_transaksi date NOT NULL,
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut character(4) NOT NULL,
+    kd_jns_op character(1) NOT NULL,
+    thn_pajak_sppt character(4) NOT NULL,
+    op_alamat character varying(100) NOT NULL,
+    op_blok_kav character varying(100) NOT NULL,
+    op_rt character varying(3) NOT NULL,
+    op_rw character varying(3) NOT NULL,
+    bumi_luas bigint NOT NULL,
+    bumi_njop bigint NOT NULL,
+    bng_luas bigint NOT NULL,
+    bng_njop bigint NOT NULL,
+    no_sertifikat character varying(30) NOT NULL,
+    njop bigint NOT NULL,
+    perolehan_id integer NOT NULL,
+    npop bigint NOT NULL,
+    npoptkp bigint NOT NULL,
+    tarif double precision NOT NULL,
+    terhutang bigint NOT NULL,
+    bagian smallint DEFAULT 1 NOT NULL,
+    pembagi smallint DEFAULT 1 NOT NULL,
+    tarif_pengurang smallint DEFAULT 0 NOT NULL,
+    pengurang bigint NOT NULL,
+    bphtb_sudah_dibayarkan bigint DEFAULT 0 NOT NULL,
+    denda bigint DEFAULT 0 NOT NULL,
+    restitusi bigint DEFAULT 0 NOT NULL,
+    bphtb_harus_dibayarkan bigint DEFAULT 0 NOT NULL,
+    status_pembayaran smallint DEFAULT 0 NOT NULL,
+    dasar_id smallint DEFAULT 0 NOT NULL,
+    create_uid character varying(20),
+    update_uid character varying(20),
+    created timestamp without time zone DEFAULT now() NOT NULL,
+    updated timestamp without time zone DEFAULT now() NOT NULL,
+    header_id bigint DEFAULT 0 NOT NULL,
+    bpn_tgl_terima date,
+    bpn_tgl_selesai date,
+    wp_kdpos character(5),
+    bank_id bigint DEFAULT 0 NOT NULL,
+    persen_pengurang_sendiri integer DEFAULT 0,
+    pp_nomor_pengurang_sendiri character varying(50),
+    mutasi_penuh integer DEFAULT 1,
+    wp_nama_asal character varying(50),
+    harga_transaksi bigint,
+    npopkp bigint
+);
+
+
+ALTER TABLE bphtb.bphtb_validasi OWNER TO bphtb;
+
+--
+-- Name: COLUMN bphtb_validasi.mutasi_penuh; Type: COMMENT; Schema: bphtb; Owner: bphtb
+--
+
+COMMENT ON COLUMN bphtb_validasi.mutasi_penuh IS 'mutasi penuh=1 (atau sebagian=0)';
+
+
+--
+-- Name: bphtb_validasi_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_validasi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_validasi_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_validasi_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_validasi_id_seq OWNED BY bphtb_validasi.id;
+
+
+--
+-- Name: bphtb_validasi_level; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_validasi_level (
+    id integer NOT NULL,
+    level integer,
+    uraian character varying(20),
+    min_value bigint,
+    max_value bigint
+);
+
+
+ALTER TABLE bphtb.bphtb_validasi_level OWNER TO bphtb;
+
+--
+-- Name: bphtb_validasi_level_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_validasi_level_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_validasi_level_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_validasi_level_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_validasi_level_id_seq OWNED BY bphtb_validasi_level.id;
+
+
+--
+-- Name: bphtb_validasi_user; Type: TABLE; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_validasi_user (
+    id integer NOT NULL,
+    user_id integer,
+    level_id integer
+);
+
+
+ALTER TABLE bphtb.bphtb_validasi_user OWNER TO bphtb;
+
+--
+-- Name: bphtb_validasi_user_id_seq; Type: SEQUENCE; Schema: bphtb; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_validasi_user_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE bphtb.bphtb_validasi_user_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_validasi_user_id_seq; Type: SEQUENCE OWNED BY; Schema: bphtb; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_validasi_user_id_seq OWNED BY bphtb_validasi_user.id;
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: apps; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE apps (
+    id integer NOT NULL,
+    nama character varying(50),
+    app_path character varying(50),
+    disabled smallint DEFAULT 1
+);
+
+
+ALTER TABLE public.apps OWNER TO bphtb;
+
+--
+-- Name: apps_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE apps_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.apps_id_seq OWNER TO bphtb;
+
+--
+-- Name: apps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE apps_id_seq OWNED BY apps.id;
+
+
+--
+-- Name: bhtb_channel; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bhtb_channel (
+    id integer NOT NULL,
+    nama character varying(20) NOT NULL
+);
+
+
+ALTER TABLE public.bhtb_channel OWNER TO bphtb;
+
+--
+-- Name: bhtb_channel_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE bhtb_channel_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bhtb_channel_id_seq OWNER TO bphtb;
+
+--
+-- Name: bhtb_channel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE bhtb_channel_id_seq OWNED BY bhtb_channel.id;
+
+
+--
+-- Name: bphtb_tp; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE bphtb_tp (
+    id integer NOT NULL,
+    singkatan character varying(16) NOT NULL,
+    nama character varying(32) NOT NULL
+);
+
+
+ALTER TABLE public.bphtb_tp OWNER TO bphtb;
+
+--
+-- Name: bphtb_tp_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE bphtb_tp_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.bphtb_tp_id_seq OWNER TO bphtb;
+
+--
+-- Name: bphtb_tp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE bphtb_tp_id_seq OWNED BY bphtb_tp.id;
+
+
+--
+-- Name: dat_objek_pajak; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE dat_objek_pajak (
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut character(4) NOT NULL,
+    kd_jns_op character(1) NOT NULL,
+    subjek_pajak_id character(30),
+    no_formulir_spop character(11),
+    no_persil character varying(5),
+    jalan_op character varying(30),
+    blok_kav_no_op character varying(15),
+    rw_op character(2),
+    rt_op character(3),
+    kd_status_cabang integer,
+    kd_status_wp character(1) DEFAULT '1'::bpchar,
+    total_luas_bumi double precision,
+    total_luas_bng double precision,
+    njop_bumi double precision,
+    njop_bng double precision,
+    status_peta_op integer,
+    jns_transaksi_op character(1) DEFAULT '1'::bpchar,
+    tgl_pendataan_op date,
+    nip_pendata character(18),
+    tgl_pemeriksaan_op date,
+    nip_pemeriksa_op character(18),
+    tgl_perekaman_op timestamp without time zone,
+    nip_perekam_op character(18)
+);
+
+
+ALTER TABLE public.dat_objek_pajak OWNER TO bphtb;
+
+--
+-- Name: dat_subjek_pajak; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE dat_subjek_pajak (
+    subjek_pajak_id character(30) NOT NULL,
+    nm_wp character varying(30) DEFAULT 'pemilik'::character varying,
+    jalan_wp character varying(30),
+    blok_kav_no_wp character varying(15),
+    rw_wp character(2),
+    rt_wp character(3),
+    kelurahan_wp character varying(30),
+    kota_wp character varying(30),
+    kd_pos_wp character varying(5),
+    telp_wp character varying(20),
+    npwp character varying(15),
+    status_pekerjaan_wp character(1) DEFAULT '0'::bpchar,
+    kecamatan_wp character varying(30),
+    propinsi_wp character varying(30),
+    CONSTRAINT dat_subjek_pajak_jalan_wp_check CHECK ((jalan_wp IS NOT NULL)),
+    CONSTRAINT dat_subjek_pajak_nm_wp_check CHECK ((nm_wp IS NOT NULL)),
+    CONSTRAINT dat_subjek_pajak_status_pekerjaan_wp_check CHECK ((status_pekerjaan_wp IS NOT NULL))
+);
+
+
+ALTER TABLE public.dat_subjek_pajak OWNER TO bphtb;
+
+--
+-- Name: group_modules; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE group_modules (
+    group_id integer,
+    id integer NOT NULL,
+    module_id integer,
+    reads smallint DEFAULT 0 NOT NULL,
+    writes smallint DEFAULT 0 NOT NULL,
+    deletes smallint DEFAULT 0 NOT NULL,
+    inserts smallint DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public.group_modules OWNER TO bphtb;
+
+--
+-- Name: group_modules_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE group_modules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.group_modules_id_seq OWNER TO bphtb;
+
+--
+-- Name: group_modules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE group_modules_id_seq OWNED BY group_modules.id;
+
+
+--
+-- Name: groups; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE groups (
+    id integer NOT NULL,
+    nama character varying(50),
+    locked smallint DEFAULT 0,
+    kode character varying(10)
+);
+
+
+ALTER TABLE public.groups OWNER TO bphtb;
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.groups_id_seq OWNER TO bphtb;
+
+--
+-- Name: groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
+
+
+--
+-- Name: modules; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE modules (
+    id integer NOT NULL,
+    nama character varying(50),
+    app_id smallint,
+    kode character varying(20)
+);
+
+
+ALTER TABLE public.modules OWNER TO bphtb;
+
+--
+-- Name: modules_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE modules_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.modules_id_seq OWNER TO bphtb;
+
+--
+-- Name: modules_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE modules_id_seq OWNED BY modules.id;
+
+
+--
+-- Name: pembayaran_sppt; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE pembayaran_sppt (
+    id integer NOT NULL,
+    kd_propinsi character(2),
+    kd_dati2 character(2),
+    kd_kecamatan character(3),
+    kd_kelurahan character(3),
+    kd_blok character(3),
+    no_urut character(4),
+    kd_jns_op character(1),
+    thn_pajak_sppt character(4),
+    pembayaran_sppt_ke integer,
+    kd_kanwil character(2),
+    kd_kantor character(2),
+    kd_tp character(2),
+    denda_sppt double precision,
+    jml_sppt_yg_dibayar double precision,
+    tgl_pembayaran_sppt date,
+    tgl_rekam_byr_sppt timestamp without time zone,
+    nip_rekam_byr_sppt character(18),
+    user_id integer
+);
+
+
+ALTER TABLE public.pembayaran_sppt OWNER TO bphtb;
+
+--
+-- Name: pembayaran_sppt_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE pembayaran_sppt_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.pembayaran_sppt_id_seq OWNER TO bphtb;
+
+--
+-- Name: pembayaran_sppt_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE pembayaran_sppt_id_seq OWNED BY pembayaran_sppt.id;
+
+
+--
+-- Name: ref_dati2; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE ref_dati2 (
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    nm_dati2 character varying(30)
+);
+
+
+ALTER TABLE public.ref_dati2 OWNER TO bphtb;
+
+--
+-- Name: ref_jabatan; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE ref_jabatan (
+    kd_jabatan character(2) NOT NULL,
+    nm_jabatan character varying(30),
+    singkatan_jabatan character varying(30)
+);
+
+
+ALTER TABLE public.ref_jabatan OWNER TO bphtb;
+
+--
+-- Name: ref_kecamatan; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE ref_kecamatan (
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    nm_kecamatan character varying(30)
+);
+
+
+ALTER TABLE public.ref_kecamatan OWNER TO bphtb;
+
+--
+-- Name: ref_kelurahan; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE ref_kelurahan (
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_sektor character(2) DEFAULT '10'::bpchar,
+    nm_kelurahan character varying(30),
+    no_kelurahan integer,
+    kd_pos_kelurahan character varying(5)
+);
+
+
+ALTER TABLE public.ref_kelurahan OWNER TO bphtb;
+
+--
+-- Name: ref_propinsi; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE ref_propinsi (
+    kd_propinsi character(2) NOT NULL,
+    nm_propinsi character varying(30)
+);
+
+
+ALTER TABLE public.ref_propinsi OWNER TO bphtb;
+
+--
+-- Name: sppt; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE sppt (
+    kd_propinsi character(2) NOT NULL,
+    kd_dati2 character(2) NOT NULL,
+    kd_kecamatan character(3) NOT NULL,
+    kd_kelurahan character(3) NOT NULL,
+    kd_blok character(3) NOT NULL,
+    no_urut character(4) NOT NULL,
+    kd_jns_op character(1) NOT NULL,
+    thn_pajak_sppt character(4) NOT NULL,
+    siklus_sppt integer,
+    kd_kanwil character(2),
+    kd_kantor character(2),
+    kd_tp character(2),
+    nm_wp_sppt character varying(30),
+    jln_wp_sppt character varying(30),
+    blok_kav_no_wp_sppt character varying(15),
+    rw_wp_sppt character(2),
+    rt_wp_sppt character(3),
+    kelurahan_wp_sppt character varying(30),
+    kota_wp_sppt character varying(30),
+    kd_pos_wp_sppt character varying(5),
+    npwp_sppt character varying(15),
+    no_persil_sppt character varying(5),
+    kd_kls_tanah character(3) DEFAULT 'XXX'::bpchar,
+    thn_awal_kls_tanah character(4) DEFAULT '1986'::bpchar,
+    kd_kls_bng character(3) DEFAULT 'XXX'::bpchar,
+    thn_awal_kls_bng character(4) DEFAULT '1986'::bpchar,
+    tgl_jatuh_tempo_sppt date,
+    luas_bumi_sppt double precision,
+    luas_bng_sppt double precision,
+    njop_bumi_sppt double precision,
+    njop_bng_sppt double precision,
+    njop_sppt double precision,
+    njoptkp_sppt integer,
+    pbb_terhutang_sppt double precision,
+    faktor_pengurang_sppt double precision,
+    pbb_yg_harus_dibayar_sppt double precision,
+    status_pembayaran_sppt character(1) DEFAULT '0'::bpchar,
+    status_tagihan_sppt character(1) DEFAULT '0'::bpchar,
+    status_cetak_sppt character(1) DEFAULT '0'::bpchar,
+    tgl_terbit_sppt date,
+    tgl_cetak_sppt timestamp without time zone,
+    nip_pencetak_sppt character(18)
+);
+
+
+ALTER TABLE public.sppt OWNER TO bphtb;
+
+--
+-- Name: tempat_pembayaran; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE tempat_pembayaran (
+    kd_kanwil character(2) NOT NULL,
+    kd_kantor character(2) NOT NULL,
+    kd_tp character(2) NOT NULL,
+    nm_tp character varying(30),
+    alamat_tp character varying(50),
+    no_rek_tp character varying(15),
+    id integer NOT NULL
+);
+
+
+ALTER TABLE public.tempat_pembayaran OWNER TO bphtb;
+
+--
+-- Name: tempat_pembayaran_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE tempat_pembayaran_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.tempat_pembayaran_id_seq OWNER TO bphtb;
+
+--
+-- Name: tempat_pembayaran_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE tempat_pembayaran_id_seq OWNED BY tempat_pembayaran.id;
+
+
+--
+-- Name: transaksi; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE transaksi (
+    tanggal date NOT NULL,
+    jam time without time zone NOT NULL,
+    seq bigint NOT NULL,
+    nop character varying(50),
+    wpnama character varying(50),
+    tx character varying(5) NOT NULL,
+    wpkelurahan character varying(50),
+    wpkecamatan character varying(50),
+    bumiluas double precision,
+    bangunanluas double precision,
+    njop double precision,
+    bayar double precision,
+    cabang character varying(5),
+    users character varying(5),
+    transno character varying(20) NOT NULL,
+    notaris character varying(50),
+    denda double precision,
+    bphtbjeniskd integer,
+    bankid smallint DEFAULT 1 NOT NULL,
+    id bigint NOT NULL,
+    refno character varying(50),
+    tahun integer,
+    opkelurahan character varying(50),
+    opkecamatan character varying(50),
+    wppropinsi character varying(50),
+    opalamat character varying(100),
+    sspd_id bigint
+);
+
+
+ALTER TABLE public.transaksi OWNER TO bphtb;
+
+--
+-- Name: transaksi_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE transaksi_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.transaksi_id_seq OWNER TO bphtb;
+
+--
+-- Name: transaksi_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE transaksi_id_seq OWNED BY transaksi.id;
+
+
+--
+-- Name: user_groups; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE user_groups (
+    id integer NOT NULL,
+    user_id integer,
+    group_id integer
+);
+
+
+ALTER TABLE public.user_groups OWNER TO bphtb;
+
+--
+-- Name: user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE user_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.user_groups_id_seq OWNER TO bphtb;
+
+--
+-- Name: user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE user_groups_id_seq OWNED BY user_groups.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE TABLE users (
+    userid character varying(25),
+    nama character varying(50),
+    created timestamp without time zone,
+    disabled smallint,
+    passwd character varying(50),
+    id integer NOT NULL,
+    nip character(18),
+    jabatan character varying(50),
+    updated timestamp without time zone,
+    update_uid bigint,
+    create_uid bigint,
+    handphone character varying(20)
+);
+
+
+ALTER TABLE public.users OWNER TO bphtb;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: bphtb
+--
+
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO bphtb;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: bphtb
+--
+
+ALTER SEQUENCE users_id_seq OWNED BY users.id;
+
+
+SET search_path = bphtb, pg_catalog;
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY app_status ALTER COLUMN id SET DEFAULT nextval('app_status_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_approval ALTER COLUMN id SET DEFAULT nextval('bphtb_approval_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_approval_final ALTER COLUMN id SET DEFAULT nextval('bphtb_approval_final_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_bank ALTER COLUMN id SET DEFAULT nextval('bphtb_bank_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_in ALTER COLUMN id SET DEFAULT nextval('bphtb_berkas_in_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_in_det ALTER COLUMN id SET DEFAULT nextval('bphtb_berkas_in_det_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_out ALTER COLUMN id SET DEFAULT nextval('bphtb_berkas_out_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_out_det ALTER COLUMN id SET DEFAULT nextval('bphtb_berkas_out_det_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_bpn ALTER COLUMN id SET DEFAULT nextval('bphtb_bpn_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_channel ALTER COLUMN id SET DEFAULT nextval('bphtb_channel_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_inquiry ALTER COLUMN id SET DEFAULT nextval('bphtb_inquiry_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_pasar ALTER COLUMN id SET DEFAULT nextval('bphtb_pasar_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_pejabat ALTER COLUMN id SET DEFAULT nextval('bphtb_pejabat_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_ppat ALTER COLUMN id SET DEFAULT nextval('bphtb_ppat_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sk ALTER COLUMN id SET DEFAULT nextval('bphtb_sk_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sspd ALTER COLUMN id SET DEFAULT nextval('bphtb_sspd_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sspd_approval ALTER COLUMN id SET DEFAULT nextval('bphtb_sspd_approval_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: postgres
+--
+
+ALTER TABLE ONLY bphtb_tp ALTER COLUMN id SET DEFAULT nextval('bphtb_tp_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_user ALTER COLUMN id SET DEFAULT nextval('bphtb_user_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_validasi ALTER COLUMN id SET DEFAULT nextval('bphtb_validasi_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_validasi_level ALTER COLUMN id SET DEFAULT nextval('bphtb_validasi_level_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_validasi_user ALTER COLUMN id SET DEFAULT nextval('bphtb_validasi_user_id_seq'::regclass);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY apps ALTER COLUMN id SET DEFAULT nextval('apps_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY bhtb_channel ALTER COLUMN id SET DEFAULT nextval('bhtb_channel_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_tp ALTER COLUMN id SET DEFAULT nextval('bphtb_tp_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY group_modules ALTER COLUMN id SET DEFAULT nextval('group_modules_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY groups ALTER COLUMN id SET DEFAULT nextval('groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY modules ALTER COLUMN id SET DEFAULT nextval('modules_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY pembayaran_sppt ALTER COLUMN id SET DEFAULT nextval('pembayaran_sppt_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY tempat_pembayaran ALTER COLUMN id SET DEFAULT nextval('tempat_pembayaran_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY transaksi ALTER COLUMN id SET DEFAULT nextval('transaksi_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY user_groups ALTER COLUMN id SET DEFAULT nextval('user_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
+
+
+SET search_path = bphtb, pg_catalog;
+
+--
+-- Name: app_status_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY app_status
+    ADD CONSTRAINT app_status_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_approval_final_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_approval_final
+    ADD CONSTRAINT bphtb_approval_final_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_approval_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_approval
+    ADD CONSTRAINT bphtb_approval_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_bank_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_bank
+    ADD CONSTRAINT bphtb_bank_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_bank_tanggal_jam_seq_transno_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_bank
+    ADD CONSTRAINT bphtb_bank_tanggal_jam_seq_transno_key UNIQUE (tanggal, jam, seq, transno);
+
+
+--
+-- Name: bphtb_berkas_in_det_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_in_det
+    ADD CONSTRAINT bphtb_berkas_in_det_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_berkas_in_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_in
+    ADD CONSTRAINT bphtb_berkas_in_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_berkas_in_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_in
+    ADD CONSTRAINT bphtb_berkas_in_uk UNIQUE (tahun, kode, no_urut);
+
+
+--
+-- Name: bphtb_berkas_out_det_berkas_in_det_id_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_out_det
+    ADD CONSTRAINT bphtb_berkas_out_det_berkas_in_det_id_key UNIQUE (berkas_in_det_id);
+
+
+--
+-- Name: bphtb_berkas_out_det_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_out_det
+    ADD CONSTRAINT bphtb_berkas_out_det_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_berkas_out_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_out
+    ADD CONSTRAINT bphtb_berkas_out_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_berkas_out_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_berkas_out
+    ADD CONSTRAINT bphtb_berkas_out_uk UNIQUE (tahun, kode, no_urut);
+
+
+--
+-- Name: bphtb_bpn_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_bpn
+    ADD CONSTRAINT bphtb_bpn_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_channel_nama_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_channel
+    ADD CONSTRAINT bphtb_channel_nama_key UNIQUE (nama);
+
+
+--
+-- Name: bphtb_channel_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_channel
+    ADD CONSTRAINT bphtb_channel_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_dasar_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_dasar
+    ADD CONSTRAINT bphtb_dasar_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_hukum_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_hukum
+    ADD CONSTRAINT bphtb_hukum_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_inquiry_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_inquiry
+    ADD CONSTRAINT bphtb_inquiry_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_pasar_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_pasar
+    ADD CONSTRAINT bphtb_pasar_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_pasar_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_pasar
+    ADD CONSTRAINT bphtb_pasar_uk UNIQUE (kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut);
+
+
+--
+-- Name: bphtb_payment_ntp_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_payment
+    ADD CONSTRAINT bphtb_payment_ntp_key UNIQUE (ntp);
+
+
+--
+-- Name: bphtb_payment_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_payment
+    ADD CONSTRAINT bphtb_payment_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_pejabat_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_pejabat
+    ADD CONSTRAINT bphtb_pejabat_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_pejabat_uq; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_pejabat
+    ADD CONSTRAINT bphtb_pejabat_uq UNIQUE (nip, kd_jabatan);
+
+
+--
+-- Name: bphtb_pengurangan_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_alasan_pengurang
+    ADD CONSTRAINT bphtb_pengurangan_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_perolehan_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_perolehan
+    ADD CONSTRAINT bphtb_perolehan_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_ppat_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_ppat
+    ADD CONSTRAINT bphtb_ppat_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_ppat_kode_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_ppat
+    ADD CONSTRAINT bphtb_ppat_kode_uk UNIQUE (kode);
+
+
+--
+-- Name: bphtb_ppat_no_sk_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_ppat
+    ADD CONSTRAINT bphtb_ppat_no_sk_uk UNIQUE (no_sk);
+
+
+--
+-- Name: bphtb_reversal_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_reversal
+    ADD CONSTRAINT bphtb_reversal_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_sk_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sk
+    ADD CONSTRAINT bphtb_sk_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_sk_uk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sk
+    ADD CONSTRAINT bphtb_sk_uk UNIQUE (tahun, kode, no_urut);
+
+
+--
+-- Name: bphtb_sk_validasi_id; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sk
+    ADD CONSTRAINT bphtb_sk_validasi_id UNIQUE (validasi_id);
+
+
+--
+-- Name: bphtb_sspd_approval_kode_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sspd_approval
+    ADD CONSTRAINT bphtb_sspd_approval_kode_key UNIQUE (tahun, kode, no_urut);
+
+
+--
+-- Name: bphtb_sspd_approval_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sspd_approval
+    ADD CONSTRAINT bphtb_sspd_approval_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_sspd_approval_sspd_id_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sspd_approval
+    ADD CONSTRAINT bphtb_sspd_approval_sspd_id_key UNIQUE (sspd_id);
+
+
+--
+-- Name: bphtb_sspd_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sspd
+    ADD CONSTRAINT bphtb_sspd_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_sspd_tahun_kode_no_sspd_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_sspd
+    ADD CONSTRAINT bphtb_sspd_tahun_kode_no_sspd_key UNIQUE (tahun, kode, no_sspd);
+
+
+--
+-- Name: bphtb_status_hak_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_status_hak
+    ADD CONSTRAINT bphtb_status_hak_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_tp_nama_key; Type: CONSTRAINT; Schema: bphtb; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_nama_key UNIQUE (nama);
+
+
+--
+-- Name: bphtb_tp_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_tp_singkatan_key; Type: CONSTRAINT; Schema: bphtb; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_singkatan_key UNIQUE (singkatan);
+
+
+--
+-- Name: bphtb_user_userid_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_user
+    ADD CONSTRAINT bphtb_user_userid_key UNIQUE (userid);
+
+
+--
+-- Name: bphtb_validasi_id_pk; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_validasi
+    ADD CONSTRAINT bphtb_validasi_id_pk PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_validasi_level_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_validasi_level
+    ADD CONSTRAINT bphtb_validasi_level_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_validasi_user_pkey; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_validasi_user
+    ADD CONSTRAINT bphtb_validasi_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_validasi_user_user_id_key; Type: CONSTRAINT; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_validasi_user
+    ADD CONSTRAINT bphtb_validasi_user_user_id_key UNIQUE (user_id);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: apps_nama_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY apps
+    ADD CONSTRAINT apps_nama_key UNIQUE (nama);
+
+
+--
+-- Name: bhtb_channel_nama_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bhtb_channel
+    ADD CONSTRAINT bhtb_channel_nama_key UNIQUE (nama);
+
+
+--
+-- Name: bhtb_channel_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bhtb_channel
+    ADD CONSTRAINT bhtb_channel_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_tp_nama_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_nama_key UNIQUE (nama);
+
+
+--
+-- Name: bphtb_tp_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bphtb_tp_singkatan_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY bphtb_tp
+    ADD CONSTRAINT bphtb_tp_singkatan_key UNIQUE (singkatan);
+
+
+--
+-- Name: group_modules_group_id_module_id_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY group_modules
+    ADD CONSTRAINT group_modules_group_id_module_id_key UNIQUE (group_id, module_id);
+
+
+--
+-- Name: group_modules_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY group_modules
+    ADD CONSTRAINT group_modules_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: groups_nama_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_nama_key UNIQUE (nama);
+
+
+--
+-- Name: groups_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY groups
+    ADD CONSTRAINT groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: modules_nama_app_id_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY modules
+    ADD CONSTRAINT modules_nama_app_id_key UNIQUE (nama, app_id);
+
+
+--
+-- Name: pembayaran_sppt_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY pembayaran_sppt
+    ADD CONSTRAINT pembayaran_sppt_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pk_a1; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY ref_propinsi
+    ADD CONSTRAINT pk_a1 PRIMARY KEY (kd_propinsi);
+
+
+--
+-- Name: pk_a2; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY ref_dati2
+    ADD CONSTRAINT pk_a2 PRIMARY KEY (kd_propinsi, kd_dati2);
+
+
+--
+-- Name: pk_a3; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY ref_kecamatan
+    ADD CONSTRAINT pk_a3 PRIMARY KEY (kd_propinsi, kd_dati2, kd_kecamatan);
+
+
+--
+-- Name: pk_a4; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY ref_kelurahan
+    ADD CONSTRAINT pk_a4 PRIMARY KEY (kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan);
+
+
+--
+-- Name: pk_apps; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY apps
+    ADD CONSTRAINT pk_apps PRIMARY KEY (id);
+
+
+--
+-- Name: pk_d11; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY dat_subjek_pajak
+    ADD CONSTRAINT pk_d11 PRIMARY KEY (subjek_pajak_id);
+
+
+--
+-- Name: pk_d7; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY dat_objek_pajak
+    ADD CONSTRAINT pk_d7 PRIMARY KEY (kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op);
+
+
+--
+-- Name: pk_e6; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY sppt
+    ADD CONSTRAINT pk_e6 PRIMARY KEY (kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op, thn_pajak_sppt);
+
+
+--
+-- Name: pk_modules; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY modules
+    ADD CONSTRAINT pk_modules PRIMARY KEY (id);
+
+
+--
+-- Name: pk_tempat_pembayaran; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY tempat_pembayaran
+    ADD CONSTRAINT pk_tempat_pembayaran PRIMARY KEY (kd_kanwil, kd_kantor, kd_tp);
+
+
+--
+-- Name: ref_jabatan_pk; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY ref_jabatan
+    ADD CONSTRAINT ref_jabatan_pk PRIMARY KEY (kd_jabatan);
+
+
+--
+-- Name: transaksi_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY transaksi
+    ADD CONSTRAINT transaksi_pkey PRIMARY KEY (tanggal, jam, seq, transno);
+
+
+--
+-- Name: user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY user_groups
+    ADD CONSTRAINT user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_groups_user_id_group_id_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY user_groups
+    ADD CONSTRAINT user_groups_user_id_group_id_key UNIQUE (user_id, group_id);
+
+
+--
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users_userid_key; Type: CONSTRAINT; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+ALTER TABLE ONLY users
+    ADD CONSTRAINT users_userid_key UNIQUE (userid);
+
+
+SET search_path = bphtb, pg_catalog;
+
+--
+-- Name: bphtb_validasi_bank_id_idx; Type: INDEX; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX bphtb_validasi_bank_id_idx ON bphtb_validasi USING btree (bank_id);
+
+
+--
+-- Name: ix_bphtb_inquiry_bank_id; Type: INDEX; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX ix_bphtb_inquiry_bank_id ON bphtb_inquiry USING btree (bank_id);
+
+
+--
+-- Name: ix_bphtb_inquiry_channel_id; Type: INDEX; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX ix_bphtb_inquiry_channel_id ON bphtb_inquiry USING btree (channel_id);
+
+
+--
+-- Name: ix_bphtb_inquiry_invoice_id; Type: INDEX; Schema: bphtb; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX ix_bphtb_inquiry_invoice_id ON bphtb_inquiry USING btree (invoice_id);
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: pembayaran_sppt_idx3; Type: INDEX; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX pembayaran_sppt_idx3 ON pembayaran_sppt USING btree (date_part('year'::text, tgl_pembayaran_sppt));
+
+
+--
+-- Name: pembayaran_sppt_thn_pajak_sppt_idx; Type: INDEX; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX pembayaran_sppt_thn_pajak_sppt_idx ON pembayaran_sppt USING btree (thn_pajak_sppt);
+
+
+--
+-- Name: psppt_pk; Type: INDEX; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE UNIQUE INDEX psppt_pk ON pembayaran_sppt USING btree (kd_propinsi, kd_dati2, kd_kecamatan, kd_kelurahan, kd_blok, no_urut, kd_jns_op, thn_pajak_sppt, kd_kanwil, kd_kantor, kd_tp, pembayaran_sppt_ke);
+
+
+--
+-- Name: tgl_pembaayran_sppt_idx; Type: INDEX; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX tgl_pembaayran_sppt_idx ON pembayaran_sppt USING btree (tgl_pembayaran_sppt);
+
+
+--
+-- Name: tgl_pembayaran_sppt_idx; Type: INDEX; Schema: public; Owner: bphtb; Tablespace: 
+--
+
+CREATE INDEX tgl_pembayaran_sppt_idx ON pembayaran_sppt USING btree (tgl_pembayaran_sppt);
+
+
+SET search_path = bphtb, pg_catalog;
+
+--
+-- Name: bphtb_bank_bi_trg; Type: TRIGGER; Schema: bphtb; Owner: bphtb
+--
+
+CREATE TRIGGER bphtb_bank_bi_trg BEFORE INSERT ON bphtb_bank FOR EACH ROW EXECUTE PROCEDURE public.f_bphtb_bank_bi();
+
+
+--
+-- Name: bphtb_bank_bu; Type: TRIGGER; Schema: bphtb; Owner: bphtb
+--
+
+CREATE TRIGGER bphtb_bank_bu BEFORE UPDATE ON bphtb_bank FOR EACH ROW EXECUTE PROCEDURE public.f_bphtb_bank_bu();
+
+
+--
+-- Name: bphtb_berkas_in_det_berkas_in_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_in_det
+    ADD CONSTRAINT bphtb_berkas_in_det_berkas_in_id_fkey FOREIGN KEY (berkas_in_id) REFERENCES bphtb_berkas_in(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bphtb_berkas_in_ppat_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_in
+    ADD CONSTRAINT bphtb_berkas_in_ppat_id_fkey FOREIGN KEY (ppat_id) REFERENCES bphtb_ppat(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_berkas_out_ppat_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_berkas_out
+    ADD CONSTRAINT bphtb_berkas_out_ppat_id_fkey FOREIGN KEY (ppat_id) REFERENCES bphtb_ppat(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_inquiry_bank_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_inquiry
+    ADD CONSTRAINT bphtb_inquiry_bank_id_fk FOREIGN KEY (bank_id) REFERENCES bphtb_tp(id);
+
+
+--
+-- Name: bphtb_inquiry_channel_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_inquiry
+    ADD CONSTRAINT bphtb_inquiry_channel_id_fk FOREIGN KEY (channel_id) REFERENCES bphtb_channel(id);
+
+
+--
+-- Name: bphtb_payment_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_payment
+    ADD CONSTRAINT bphtb_payment_id_fkey FOREIGN KEY (id) REFERENCES bphtb_bank(id);
+
+
+--
+-- Name: bphtb_payment_invoice_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_payment
+    ADD CONSTRAINT bphtb_payment_invoice_id_fkey FOREIGN KEY (invoice_id) REFERENCES bphtb_sspd(id);
+
+
+--
+-- Name: bphtb_reversal_id_fkey; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_reversal
+    ADD CONSTRAINT bphtb_reversal_id_fkey FOREIGN KEY (id) REFERENCES bphtb_payment(id);
+
+
+--
+-- Name: bphtb_sk_validasi_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sk
+    ADD CONSTRAINT bphtb_sk_validasi_id_fk FOREIGN KEY (validasi_id) REFERENCES bphtb_validasi(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_sspd_approval_sspd_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sspd_approval
+    ADD CONSTRAINT bphtb_sspd_approval_sspd_fk FOREIGN KEY (sspd_id) REFERENCES bphtb_sspd(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_sspd_perolehan_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sspd
+    ADD CONSTRAINT bphtb_sspd_perolehan_id_fk FOREIGN KEY (perolehan_id) REFERENCES bphtb_perolehan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_sspd_ppat_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_sspd
+    ADD CONSTRAINT bphtb_sspd_ppat_id_fk FOREIGN KEY (ppat_id) REFERENCES bphtb_ppat(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bphtb_validasi_perolehan_id_fk; Type: FK CONSTRAINT; Schema: bphtb; Owner: bphtb
+--
+
+ALTER TABLE ONLY bphtb_validasi
+    ADD CONSTRAINT bphtb_validasi_perolehan_id_fk FOREIGN KEY (perolehan_id) REFERENCES bphtb_perolehan(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: group_modules_module_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY group_modules
+    ADD CONSTRAINT group_modules_module_id_fkey FOREIGN KEY (module_id) REFERENCES modules(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: group_modules_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY group_modules
+    ADD CONSTRAINT group_modules_user_id_fkey FOREIGN KEY (group_id) REFERENCES groups(id) MATCH FULL ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: modules_app_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY modules
+    ADD CONSTRAINT modules_app_id_fkey FOREIGN KEY (app_id) REFERENCES apps(id);
+
+
+--
+-- Name: user_groups_group_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY user_groups
+    ADD CONSTRAINT user_groups_group_id_fkey FOREIGN KEY (group_id) REFERENCES groups(id);
+
+
+--
+-- Name: user_groups_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: bphtb
+--
+
+ALTER TABLE ONLY user_groups
+    ADD CONSTRAINT user_groups_user_id_fkey FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

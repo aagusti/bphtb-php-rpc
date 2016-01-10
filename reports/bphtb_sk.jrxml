@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bphtb_sk" language="groovy" pageWidth="595" pageHeight="842" columnWidth="465" leftMargin="65" rightMargin="65" topMargin="60" bottomMargin="60" uuid="430185b2-5f5e-4d4a-b490-c29e0513392f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="validasi_id" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     bphtb_sk."id" AS bphtb_sk_id,
+     bphtb_sk."validasi_id" AS bphtb_sk_validasi_id,
+     bphtb_sk."tahun" AS bphtb_sk_tahun,
+     bphtb_sk."kode" AS bphtb_sk_kode,
+     bphtb_sk."no_urut" AS bphtb_sk_no_urut,
+     bphtb_sk."create_uid" AS bphtb_sk_create_uid,
+     bphtb_sk."update_uid" AS bphtb_sk_update_uid,
+     bphtb_sk."created" AS bphtb_sk_created,
+     bphtb_sk."updated" AS bphtb_sk_updated,
+     bphtb_validasi."id" AS bphtb_validasi_id,
+     bphtb_validasi."berkas_in_id" AS bphtb_validasi_berkas_in_id,
+     bphtb_validasi."sspd_id" AS bphtb_validasi_sspd_id,
+     bphtb_validasi."ppat_id" AS bphtb_validasi_ppat_id,
+     bphtb_validasi."wp_nama" AS bphtb_validasi_wp_nama,
+     bphtb_validasi."wp_npwp" AS bphtb_validasi_wp_npwp,
+     bphtb_validasi."wp_alamat" AS bphtb_validasi_wp_alamat,
+     bphtb_validasi."wp_blok_kav" AS bphtb_validasi_wp_blok_kav,
+     bphtb_validasi."wp_kelurahan" AS bphtb_validasi_wp_kelurahan,
+     bphtb_validasi."wp_rt" AS bphtb_validasi_wp_rt,
+     bphtb_validasi."wp_rw" AS bphtb_validasi_wp_rw,
+     bphtb_validasi."wp_kecamatan" AS bphtb_validasi_wp_kecamatan,
+     bphtb_validasi."wp_kota" AS bphtb_validasi_wp_kota,
+     bphtb_validasi."wp_provinsi" AS bphtb_validasi_wp_provinsi,
+     bphtb_validasi."wp_identitas" AS bphtb_validasi_wp_identitas,
+     bphtb_validasi."wp_identitaskd" AS bphtb_validasi_wp_identitaskd,
+     bphtb_validasi."tgl_transaksi" AS bphtb_validasi_tgl_transaksi,
+     bphtb_validasi."kd_propinsi" AS bphtb_validasi_kd_propinsi,
+     bphtb_validasi."kd_dati2" AS bphtb_validasi_kd_dati2,
+     bphtb_validasi."kd_kecamatan" AS bphtb_validasi_kd_kecamatan,
+     bphtb_validasi."kd_kelurahan" AS bphtb_validasi_kd_kelurahan,
+     bphtb_validasi."kd_blok" AS bphtb_validasi_kd_blok,
+     bphtb_validasi."no_urut" AS bphtb_validasi_no_urut,
+     bphtb_validasi."kd_jns_op" AS bphtb_validasi_kd_jns_op,
+     bphtb_validasi."thn_pajak_sppt" AS bphtb_validasi_thn_pajak_sppt,
+     bphtb_validasi."op_alamat" AS bphtb_validasi_op_alamat,
+     bphtb_validasi."op_blok_kav" AS bphtb_validasi_op_blok_kav,
+     bphtb_validasi."op_rt" AS bphtb_validasi_op_rt,
+     bphtb_validasi."op_rw" AS bphtb_validasi_op_rw,
+     bphtb_validasi."bumi_luas" AS bphtb_validasi_bumi_luas,
+     bphtb_validasi."bumi_njop" AS bphtb_validasi_bumi_njop,
+     bphtb_validasi."bng_luas" AS bphtb_validasi_bng_luas,
+     bphtb_validasi."bng_njop" AS bphtb_validasi_bng_njop,
+     bphtb_validasi."no_sertifikat" AS bphtb_validasi_no_sertifikat,
+     bphtb_validasi."njop" AS bphtb_validasi_njop,
+     bphtb_validasi."perolehan_id" AS bphtb_validasi_perolehan_id,
+     bphtb_validasi."npop" AS bphtb_validasi_npop,
+     bphtb_validasi."npoptkp" AS bphtb_validasi_npoptkp,
+     bphtb_validasi."tarif" AS bphtb_validasi_tarif,
+     bphtb_validasi."terhutang" AS bphtb_validasi_terhutang,
+     bphtb_validasi."bagian" AS bphtb_validasi_bagian,
+     bphtb_validasi."pembagi" AS bphtb_validasi_pembagi,
+     bphtb_validasi."tarif_pengurang" AS bphtb_validasi_tarif_pengurang,
+     bphtb_validasi."pengurang" AS bphtb_validasi_pengurang,
+     bphtb_validasi."bphtb_sudah_dibayarkan" AS bphtb_validasi_bphtb_sudah_dibayarkan,
+     bphtb_validasi."denda" AS bphtb_validasi_denda,
+     bphtb_validasi."restitusi" AS bphtb_validasi_restitusi,
+     bphtb_validasi."bphtb_harus_dibayarkan" AS bphtb_validasi_bphtb_harus_dibayarkan,
+     bphtb_validasi."status_pembayaran" AS bphtb_validasi_status_pembayaran,
+     bphtb_validasi."dasar_id" AS bphtb_validasi_dasar_id,
+     bphtb_validasi."create_uid" AS bphtb_validasi_create_uid,
+     bphtb_validasi."update_uid" AS bphtb_validasi_update_uid,
+     bphtb_validasi."created" AS bphtb_validasi_created,
+     bphtb_validasi."updated" AS bphtb_validasi_updated,
+     bphtb_validasi."header_id" AS bphtb_validasi_header_id,
+     bphtb_validasi."bpn_tgl_terima" AS bphtb_validasi_bpn_tgl_terima,
+     bphtb_validasi."bpn_tgl_selesai" AS bphtb_validasi_bpn_tgl_selesai,
+     bphtb_validasi."wp_kdpos" AS bphtb_validasi_wp_kdpos,
+     bphtb_validasi."bank_id" AS bphtb_validasi_bank_id,
+     bphtb_validasi."persen_pengurang_sendiri" AS bphtb_validasi_persen_pengurang_sendiri,
+     bphtb_validasi."pp_nomor_pengurang_sendiri" AS bphtb_validasi_pp_nomor_pengurang_sendiri
+FROM
+     bphtb_validasi
+INNER JOIN bphtb_sk ON bphtb_validasi."id" = bphtb_sk."validasi_id"
+WHERE bphtb_validasi."id"=$P{validasi_id}]]>
+	</queryString>
+	<field name="bphtb_sk_id" class="java.lang.Long"/>
+	<field name="bphtb_sk_validasi_id" class="java.lang.Long"/>
+	<field name="bphtb_sk_tahun" class="java.lang.Integer"/>
+	<field name="bphtb_sk_kode" class="java.lang.String"/>
+	<field name="bphtb_sk_no_urut" class="java.lang.Long"/>
+	<field name="bphtb_sk_create_uid" class="java.lang.String"/>
+	<field name="bphtb_sk_update_uid" class="java.lang.String"/>
+	<field name="bphtb_sk_created" class="java.sql.Timestamp"/>
+	<field name="bphtb_sk_updated" class="java.sql.Timestamp"/>
+	<field name="bphtb_validasi_id" class="java.lang.Long"/>
+	<field name="bphtb_validasi_berkas_in_id" class="java.lang.Long"/>
+	<field name="bphtb_validasi_sspd_id" class="java.lang.Long"/>
+	<field name="bphtb_validasi_ppat_id" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_wp_nama" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_npwp" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_alamat" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_blok_kav" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_kelurahan" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_rt" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_rw" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_kecamatan" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_kota" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_provinsi" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_identitas" class="java.lang.String"/>
+	<field name="bphtb_validasi_wp_identitaskd" class="java.lang.String"/>
+	<field name="bphtb_validasi_tgl_transaksi" class="java.sql.Date"/>
+	<field name="bphtb_validasi_kd_propinsi" class="java.lang.String"/>
+	<field name="bphtb_validasi_kd_dati2" class="java.lang.String"/>
+	<field name="bphtb_validasi_kd_kecamatan" class="java.lang.String"/>
+	<field name="bphtb_validasi_kd_kelurahan" class="java.lang.String"/>
+	<field name="bphtb_validasi_kd_blok" class="java.lang.String"/>
+	<field name="bphtb_validasi_no_urut" class="java.lang.String"/>
+	<field name="bphtb_validasi_kd_jns_op" class="java.lang.String"/>
+	<field name="bphtb_validasi_thn_pajak_sppt" class="java.lang.String"/>
+	<field name="bphtb_validasi_op_alamat" class="java.lang.String"/>
+	<field name="bphtb_validasi_op_blok_kav" class="java.lang.String"/>
+	<field name="bphtb_validasi_op_rt" class="java.lang.String"/>
+	<field name="bphtb_validasi_op_rw" class="java.lang.String"/>
+	<field name="bphtb_validasi_bumi_luas" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bumi_njop" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bng_luas" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bng_njop" class="java.lang.Long"/>
+	<field name="bphtb_validasi_no_sertifikat" class="java.lang.String"/>
+	<field name="bphtb_validasi_njop" class="java.lang.Long"/>
+	<field name="bphtb_validasi_perolehan_id" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_npop" class="java.lang.Long"/>
+	<field name="bphtb_validasi_npoptkp" class="java.lang.Long"/>
+	<field name="bphtb_validasi_tarif" class="java.lang.Double"/>
+	<field name="bphtb_validasi_terhutang" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bagian" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_pembagi" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_tarif_pengurang" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_pengurang" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bphtb_sudah_dibayarkan" class="java.lang.Long"/>
+	<field name="bphtb_validasi_denda" class="java.lang.Long"/>
+	<field name="bphtb_validasi_restitusi" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bphtb_harus_dibayarkan" class="java.lang.Long"/>
+	<field name="bphtb_validasi_status_pembayaran" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_dasar_id" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_create_uid" class="java.lang.String"/>
+	<field name="bphtb_validasi_update_uid" class="java.lang.String"/>
+	<field name="bphtb_validasi_created" class="java.sql.Timestamp"/>
+	<field name="bphtb_validasi_updated" class="java.sql.Timestamp"/>
+	<field name="bphtb_validasi_header_id" class="java.lang.Long"/>
+	<field name="bphtb_validasi_bpn_tgl_terima" class="java.sql.Date"/>
+	<field name="bphtb_validasi_bpn_tgl_selesai" class="java.sql.Date"/>
+	<field name="bphtb_validasi_wp_kdpos" class="java.lang.String"/>
+	<field name="bphtb_validasi_bank_id" class="java.lang.Long"/>
+	<field name="bphtb_validasi_persen_pengurang_sendiri" class="java.lang.Integer"/>
+	<field name="bphtb_validasi_pp_nomor_pengurang_sendiri" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="147" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="0" width="465" height="35"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[KEPUTUSAN WALIKOTA TASIKMALAYA
+NOMOR : .............................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="35" width="465" height="57"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TENTANG
+PEMBETULAN PAJAK DAERAH
+BEA PEROLEHAN HAK ATAS TANAH DAN BANGUNAN
+ATAS ............................. NOMOR .......................... TANGGAL .....................]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="109" width="465" height="16"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[WALIKOTA TASIKMALAYA]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="480" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="0" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Menimbang]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="0" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="0" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="0" width="372" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Surat ketetapan BPHTB ......... /Surat Tagihan BPHTB/Surat Keputusan ..................]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="99e9a2ba-a64b-4c33-b6d6-c4422d48c0ae" x="93" y="15" width="372" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["Nomor : ......... tanggal ................ atas nama "+$F{bphtb_validasi_wp_nama}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="36" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="36" width="372" height="55"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Bahwa berdasarkan hasil penelitian sebagaimana dituangkan dalam Laporan Hasil Penelitian Pembetulan BPHTB Nomor ............... Tanggal ............... terdapat cukup alasan untuk membetulkan kesalahan tulis/kesalahan hitung/kekeliruan penerapan ketentuan tertentu dalam peraturan perundang-undangan pajak daerah BPHTB *).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="100" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Mengingat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="100" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="100" width="372" height="28"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Undang-undang Nomor 28 Tahun 2009 tentang Pajak Daerah dan Retribusi Daerah (Lembaran Negara Tahun 2009 Nomor 130);]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="100" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="134" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[2.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="134" width="372" height="28"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Peraturan Daerah Kota Tsikmalaya Nomor ......... Tahun ....... tentang Pajak Daerah).]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="178" width="465" height="16"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[MEMUTUSKAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="204" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Menetapkan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="204" width="384" height="44"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[KEPUTUSAN WALIKOTA TANGERANG SELATAN TENTANG PEMBETULAN PAJAK DAERAH BPHTB ATAS …………………………. NOMOR ………………………. TANGGAL ……………………………………]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="204" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="259" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="259" width="384" height="29"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Membetulkan secara jabatan atas ………………………. Nomor …………………………. Tanggal …………………………………….]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="259" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[PERTAMA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="288" width="99" height="15"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nama Wajib Pajak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="180" y="288" width="11" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="303" width="99" height="15"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[NOP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="180" y="303" width="11" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="318" width="99" height="15"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Alamat Wajib Pajak]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="180" y="318" width="11" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="180" y="360" width="11" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="360" width="99" height="15"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Alamat Objek Pajak]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="7f14ab0f-098d-4116-8a02-f1e87c3cf121" x="191" y="288" width="274" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bphtb_validasi_wp_nama}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7f14ab0f-098d-4116-8a02-f1e87c3cf121" x="191" y="303" width="274" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bphtb_validasi_kd_propinsi}+'.'+$F{bphtb_validasi_kd_dati2}+'.'+$F{bphtb_validasi_kd_kecamatan}+'.'+$F{bphtb_validasi_kd_kelurahan}+'.'+$F{bphtb_validasi_kd_blok}+'.'+$F{bphtb_validasi_no_urut}+'.'+$F{bphtb_validasi_kd_jns_op}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="7f14ab0f-098d-4116-8a02-f1e87c3cf121" x="191" y="318" width="274" height="42"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{bphtb_validasi_wp_alamat}+' '+$F{bphtb_validasi_wp_blok_kav}+' '+$F{bphtb_validasi_wp_rt}+'/'+$F{bphtb_validasi_wp_rw}+' '+$F{bphtb_validasi_wp_kelurahan}+' '+$F{bphtb_validasi_wp_kecamatan}+' '+$F{bphtb_validasi_wp_kota}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement uuid="7f14ab0f-098d-4116-8a02-f1e87c3cf121" x="191" y="360" width="274" height="40"/>
+				<textElement>
+					<font isUnderline="false" isStrikeThrough="false"/>
+				</textElement>
+			</textField>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="410" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="410" width="384" height="16"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sesuai Diktum PERTAMA, rincian pembetulan sebagai berikut :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="410" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[KEDUA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="426" width="27" height="16"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[NO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="108" y="426" width="116" height="16"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[URAIAN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="224" y="426" width="116" height="16"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[SEMULA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="340" y="426" width="125" height="16"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[HASIL PEMBETULAN]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="220e2066-1962-41a9-9008-ae9ae38dd118" x="224" y="442" width="116" height="16"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["SEMULA"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="457b43a4-3d1e-4e28-81d9-e379b437cbde" x="340" y="442" width="125" height="16"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["HASIL PEMBETULAN"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="442" width="27" height="16"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="ed1d9e1f-5ffb-40ed-a3a9-7ddc22956aad" x="108" y="442" width="116" height="16"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="none">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["URAIAN"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="240">
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="0" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="0" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[KETIGA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="0" width="384" height="27"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Apabila dikemudian hari ternyata terdapat kekeliruan dalam Keputusan ini maka akan dibetulkan sebagaimana mestinya.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="0" y="39" width="70" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[KEEMPAT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="39" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[a.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="39" width="372" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Asli Keputusan ini disampaikan kepada Wajib Pajak;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="70" y="39" width="11" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="81" y="55" width="12" height="16"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[b.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="93" y="55" width="372" height="15"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Salinan Keputusan ini disampaikan kepada Walikota.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="253" y="95" width="212" height="56"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ditetapkan di Tasikmalaya
+Pada Tanggal .......... 2013
+An. Walikota Tasikmalaya
+Kepala DPPKAD Tasikmalaya]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6b7576fa-2b8e-4600-9e82-90e1ee2765c3" x="253" y="199" width="212" height="28"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[_________________________
+NIP.]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="81" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
