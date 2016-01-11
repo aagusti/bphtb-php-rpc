@@ -4,7 +4,7 @@ if (!function_exists('json_rpc_header')){
     function json_rpc_header($userid, $password){
         date_default_timezone_set('UTC'); 
         $inttime     = strval(time()-strtotime('1970-01-01 00:00:00')); 
-        $value       = "admin&" . $inttime; 
+        $value       = "$userid&" . $inttime; 
         $key         = $password; 
         $signature   = hash_hmac('sha256', $value, $key, true); 
         $signature64 = base64_encode($signature);
