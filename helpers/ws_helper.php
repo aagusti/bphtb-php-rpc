@@ -102,6 +102,24 @@ if (!function_exists('ws_get_sppt'))
         return json_rpc_client('get_sppt',$params);          
     }
 }
+
+if (!function_exists('ws_get_dop_bphtb'))
+{
+    function ws_get_dop_bphtb($nop, $tahun=0) 
+    {
+        if ($tahun==0) $tahun=date('Y');
+        $nop_num = preg_replace("/[^0-9]/", "", $nop);
+        if ((!$nop) || strlen($nop_num) != 18)
+            return FALSE;
+        $params = array('data'=>array(
+                                  array('kode'=>$nop,
+                                        'tahun'=>$tahun)
+                                )
+                        );
+        return json_rpc_client('get_dop_bphtb',$params);          
+    }
+}
+
 ?>
 
         
